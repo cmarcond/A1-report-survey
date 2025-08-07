@@ -1,7 +1,44 @@
 % settings/setcolor.tex
 % --- Definições de cores do projeto AIRDATA ---
 
-\usepackage{xcolor}  % Já está em defs_setusepackage.tex — mantenha lá, não repita aqui
+% Importante: não utilize o comando \usepackage{xcolor} aqui.
+% Esse pacote já está carregado no arquivo settings/usepackage.tex.
 
 % Cor azul institucional AIRDATA
 \definecolor{airdataBlue}{HTML}{2f84c6}
+
+% ========================================
+% PALETA DE CORES - METAS E ETAPAS
+% ========================================
+
+% Cores de Coordenação
+\definecolor{coordMeta1}{HTML}{272a6a}
+\definecolor{coordMeta2}{HTML}{388fcd}
+
+% --- META 1 ---
+\definecolor{meta1etapa1}{HTML}{283880}
+\definecolor{meta1etapa2}{HTML}{204196}
+\definecolor{meta1etapa3}{HTML}{2451a4}
+\definecolor{meta1etapa4}{HTML}{2b61ae}
+\definecolor{meta1etapa5}{HTML}{2d72ba}
+\definecolor{meta1etapa6}{HTML}{2f84c6}
+
+% --- META 2 ---
+\definecolor{meta2etapa1}{HTML}{388fcd}
+\definecolor{meta2etapa2}{HTML}{6597ca}
+\definecolor{meta2etapa3}{HTML}{6392bd}
+\definecolor{meta2etapa4}{HTML}{618eb1}
+\definecolor{meta2etapa5}{HTML}{5e89a7}
+\definecolor{meta2etapa6}{HTML}{5c859c}
+\definecolor{meta2etapa7}{HTML}{4d7d94}
+\definecolor{meta2etapa8}{HTML}{3f738b}
+\definecolor{meta2etapa9}{HTML}{306983}
+\definecolor{meta2etapa10}{HTML}{215f7b}
+
+% ========================================
+% COR PRINCIPAL DO PROJETO
+% ========================================
+
+% Cor principal do projeto (Meta 2 Etapa 2 por padrão)
+% Esta cor é usada para destacar o projeto atual na paleta
+\definecolor{projectMainColor}{named}{meta2etapa2}

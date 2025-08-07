@@ -1,0 +1,106 @@
+% caps/palette_generator.tex
+% Gerador de paleta de cores dinâmica usando TikZ
+
+\section{Paleta de Cores do Projeto}
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[scale=0.9]
+
+% Definir estilo das caixas
+\tikzstyle{colorbox}=[rectangle, minimum width=3cm, minimum height=0.8cm, font=\footnotesize]
+\tikzstyle{labeltext}=[font=\footnotesize]
+
+% === META 1 ===
+% Título Meta 1
+\node[anchor=north] at (2, 0) {\textbf{Meta 1}};
+
+% Coordenação Meta 1
+\node[colorbox, fill=coordMeta1] (coord1) at (2, -0.5) {};
+\node[labeltext, anchor=west, orange] at (4.5, -0.5) {272a6a};
+\node[labeltext, anchor=east] at (7.5, -0.5) {Coordenação};
+
+% Etapas Meta 1
+\node[colorbox, fill=meta1etapa1] at (2, -1.5) {};
+\node[labeltext, anchor=west, orange] at (4.5, -1.5) {283880};
+\node[labeltext, anchor=east] at (7.5, -1.5) {Etapa 1};
+
+\node[colorbox, fill=meta1etapa2] at (2, -2.3) {};
+\node[labeltext, anchor=west, orange] at (4.5, -2.3) {204196};
+\node[labeltext, anchor=east] at (7.5, -2.3) {Etapa 2};
+
+\node[colorbox, fill=meta1etapa3] at (2, -3.1) {};
+\node[labeltext, anchor=west, orange] at (4.5, -3.1) {2451a4};
+\node[labeltext, anchor=east] at (7.5, -3.1) {Etapa 3};
+
+\node[colorbox, fill=meta1etapa4] at (2, -3.9) {};
+\node[labeltext, anchor=west, orange] at (4.5, -3.9) {2b61ae};
+\node[labeltext, anchor=east] at (7.5, -3.9) {Etapa 4};
+
+\node[colorbox, fill=meta1etapa5] at (2, -4.7) {};
+\node[labeltext, anchor=west, orange] at (4.5, -4.7) {2d72ba};
+\node[labeltext, anchor=east] at (7.5, -4.7) {Etapa 5};
+
+\node[colorbox, fill=meta1etapa6] at (2, -5.5) {};
+\node[labeltext, anchor=west, orange] at (4.5, -5.5) {2f84c6};
+\node[labeltext, anchor=east] at (7.5, -5.5) {Etapa 6};
+
+% Caixa ao redor da Meta 1
+\draw[gray, rounded corners] (0.3, 0.3) rectangle (8, -6);
+
+% === META 2 ===
+% Título Meta 2  
+\node[anchor=north] at (12, 0) {\textbf{Meta 2}};
+
+% Coordenação Meta 2
+\node[colorbox, fill=coordMeta2] at (12, -0.5) {};
+\node[labeltext, anchor=west, orange] at (14.5, -0.5) {388fcd};
+\node[labeltext, anchor=east] at (17.5, -0.5) {Etapa 1};
+
+% Etapas Meta 2
+\node[colorbox, fill=meta2etapa2] at (12, -1.3) {};
+\node[labeltext, anchor=west, orange] at (14.5, -1.3) {6597ca};
+\node[labeltext, anchor=east] at (17.5, -1.3) {Etapa 2};
+
+\node[colorbox, fill=meta2etapa3] at (12, -2.1) {};
+\node[labeltext, anchor=west, orange] at (14.5, -2.1) {6392bd};
+\node[labeltext, anchor=east] at (17.5, -2.1) {Etapa 3};
+
+\node[colorbox, fill=meta2etapa4] at (12, -2.9) {};
+\node[labeltext, anchor=west, orange] at (14.5, -2.9) {618eb1};
+\node[labeltext, anchor=east] at (17.5, -2.9) {Etapa 4};
+
+\node[colorbox, fill=meta2etapa5] at (12, -3.7) {};
+\node[labeltext, anchor=west, orange] at (14.5, -3.7) {5e89a7};
+\node[labeltext, anchor=east] at (17.5, -3.7) {Etapa 5};
+
+\node[colorbox, fill=meta2etapa6] at (12, -4.5) {};
+\node[labeltext, anchor=west, orange] at (14.5, -4.5) {5c859c};
+\node[labeltext, anchor=east] at (17.5, -4.5) {Etapa 6};
+
+\node[colorbox, fill=meta2etapa7] at (12, -5.3) {};
+\node[labeltext, anchor=west, orange] at (14.5, -5.3) {4d7d94};
+\node[labeltext, anchor=east] at (17.5, -5.3) {Etapa 7};
+
+\node[colorbox, fill=meta2etapa8] at (12, -6.1) {};
+\node[labeltext, anchor=west, orange] at (14.5, -6.1) {3f738b};
+\node[labeltext, anchor=east] at (17.5, -6.1) {Etapa 8};
+
+\node[colorbox, fill=meta2etapa9] at (12, -6.9) {};
+\node[labeltext, anchor=west, orange] at (14.5, -6.9) {306983};
+\node[labeltext, anchor=east] at (17.5, -6.9) {Etapa 9};
+
+\node[colorbox, fill=meta2etapa10] at (12, -7.7) {};
+\node[labeltext, anchor=west, orange] at (14.5, -7.7) {215f7b};
+\node[labeltext, anchor=east] at (17.5, -7.7) {Etapa 10};
+
+% Caixa ao redor da Meta 2
+\draw[gray, rounded corners] (10.3, 0.3) rectangle (18, -8.2);
+
+% Destacar projeto atual (Meta 2 Etapa 2)
+\draw[projectMainColor, ultra thick, rounded corners] (10.4, -0.9) rectangle (17.9, -1.7);
+
+\end{tikzpicture}
+\caption{Paleta de cores do projeto TED ITA-SAC - \textcolor{projectMainColor}{\textbf{Meta 2 Etapa 2}}}
+\label{fig:paleta_cores}
+\end{figure}

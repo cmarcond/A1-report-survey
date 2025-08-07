@@ -1,0 +1,70 @@
+# LaTeX temporary files
+*.aux
+*.log
+*.bbl
+*.blg
+*.glo
+*.gls
+*.glg
+*.acn
+*.acr
+*.alg
+*.ist
+*.toc
+*.lof
+*.lot
+*.out
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.nav
+*.snm
+*.vrb
+*.dvi
+*.ps
+
+# LaTeX build files
+*.idx
+*.ilg
+*.ind
+*.bcf
+*.run.xml
+*-blx.aux
+*-blx.bib
+
+# Backup files
+*.bak
+*~
+*.backup
+
+# Editor temporary files
+.*.swp
+.*.swo
+*~
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# PDF output (uncomment if you don't want to track PDFs)
+# *.pdf
+
+# Project specific
+main.pdf
+settings/dynamic_colors.tex
+settings/setcolor.tex.bak
+
+# Python cache (if using scripts)
+__pycache__/
+*.py[cod]
+*$py.class
+
+# IDE directories
+.vscode/
+.idea/
+
+# OS generated files
+.Trash-*
+.nfs*

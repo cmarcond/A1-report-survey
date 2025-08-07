@@ -24,6 +24,14 @@ MAKEGLOSSARIES = makeglossaries
 VIEWER = xdg-open
 LATEX_FLAGS = -interaction=nonstopmode -halt-on-error
 
+# ========================================
+# PROJECT CONFIGURATION
+# ========================================
+# Configure your project Meta and Etapa here
+# This will automatically use the correct official color
+PROJECT_META = 2
+PROJECT_ETAPA = 2
+
 # Source files and dependencies
 TEX_FILES = $(wildcard *.tex) \
             $(wildcard caps/*.tex) \
@@ -64,7 +72,7 @@ TEMP_FILES = $(AUX) $(LOG) $(BBL) $(BLG) $(GLO) $(GLS) $(GLG) \
 
 # Default target - automatically installs dependencies if needed
 .PHONY: all
-all: auto-setup $(PDF)
+all: auto-setup update-project-color $(PDF)
 
 # Automatic setup - installs missing dependencies without asking
 .PHONY: auto-setup
@@ -75,6 +83,13 @@ auto-setup:
 		echo "=========================================" && \
 		$(MAKE) install-deps-auto; \
 	fi
+
+# Update project color based on Meta and Etapa
+.PHONY: update-project-color
+update-project-color:
+	@echo "🎨 Setting project color for Meta $(PROJECT_META) Etapa $(PROJECT_ETAPA)"
+	@mkdir -p scripts
+	@bash scripts/update_project_color.sh "$(PROJECT_META)" "$(PROJECT_ETAPA)"
 
 # Main compilation rule
 $(PDF): $(TEX_FILES) $(IMG_FILES)
@@ -175,11 +190,19 @@ check:
 help:
 	@echo "LaTeX Makefile - Available Commands:"
 	@echo "========================================="
+	@echo "COMPILATION:"
 	@echo "  make         - Install deps (if needed) and compile"
 	@echo "  make quick   - Quick compilation (single pass)"
 	@echo "  make force   - Clean and full recompilation"
 	@echo "  make view    - Compile and open PDF viewer"
 	@echo "  make watch   - Continuous compilation on file changes"
+	@echo ""
+	@echo "PROJECT CONFIGURATION:"
+	@echo "  Current: Meta $(PROJECT_META) Etapa $(PROJECT_ETAPA)"
+	@echo "  To change: Edit PROJECT_META and PROJECT_ETAPA in Makefile"
+	@echo "  Or run: make PROJECT_META=1 PROJECT_ETAPA=3"
+	@echo ""
+	@echo "MAINTENANCE:"
 	@echo "  make clean   - Remove temporary files"
 	@echo "  make distclean - Remove all generated files"
 	@echo "  make deps-check - Check which packages are installed"

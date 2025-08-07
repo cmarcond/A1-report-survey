@@ -1,0 +1,43 @@
+\chapter{Paleta de Cores e Estilo Visual}
+
+A padronização das cores é essencial para manter a identidade visual do projeto TED ITA-SAC. Este capítulo apresenta a paleta cromática adotada para representar a Coordenação Geral, as Metas e as respectivas Etapas.
+
+\section{Visualização da paleta de cores}
+
+A imagem a seguir apresenta a estrutura da paleta de cores, organizada por metas e etapas.
+
+Arquivo da imagem: images/paleta\_cores.png
+
+
+Legenda: Códigos de cor utilizados no projeto por meta e etapa.
+
+
+\section{Definição das cores no template}
+
+As cores são definidas no arquivo:
+
+settings/setcolor.tex
+
+Dentro desse arquivo, as cores são registradas com o comando definecolor. Exemplo:
+
+definecolor{meta1etapa4}{HTML}{2b61ae}
+
+Importante: não utilize o comando usepackage{xcolor} dentro de setcolor.tex. Esse pacote já deve estar carregado no arquivo settings/usepackage.tex.
+
+\section{Exemplo de uso no texto}
+
+Para aplicar uma cor ao texto, por exemplo na Etapa 1 da Meta 2:
+
+{color{meta2etapa1} Etapa 1 da Meta 2}
+
+Para destacar uma frase com fundo colorido:
+
+colorbox{meta1etapa4}{parbox de largura reduzida com o texto: "Texto destacado na cor da Etapa 4 da Meta 1."}
+
+Essa caixa deve ser compacta (recomenda-se usar largura de 40% a 50% da linha para evitar que ultrapasse a margem do documento).
+
+\section{Cuidados no uso das cores}
+
+- Evite usar cores com baixo contraste entre fundo e texto.
+- Utilize apenas as cores registradas em settings/setcolor.tex.
+- Em documentos entregues oficialmente, utilize na capa a cor institucional que corresponde à etapa do projeto, conforme orientação da Coordenação Geral.

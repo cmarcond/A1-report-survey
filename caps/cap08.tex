@@ -1,0 +1,74 @@
+\chapter{Capa e Plano de Fundo}
+
+O template TED ITA-SAC utiliza uma capa institucional personalizada e uma marca d’água como plano de fundo nas páginas internas. Ambos os elementos foram desenvolvidos com identidade visual própria e integrados ao sistema LaTeX.
+
+\section{Origem dos elementos gráficos}
+
+As artes da capa e da marca d’água foram criadas na plataforma Canva. Estão disponíveis para edição e exportação no seguinte link :
+
+
+A partir desse link, é possível:
+
+- Alterar o título, logotipos ou datas na capa;
+- Exportar o plano de fundo como imagem PNG ou PDF;
+- Garantir a padronização gráfica do projeto TED ITA-SAC.
+
+\section{Configuração da capa}
+
+A capa é definida no arquivo:
+
+settings/coverpage.tex
+
+Exemplo de estrutura típica:
+
+(begin titlepage)  
+(begin center)  
+(vspace de 4 cm)  
+Título do Documento - fonte grande e negrito  
+(vspace de 2 cm)  
+Projeto TED ITA-SAC  
+Rodapé com ITA, São José dos Campos, ano  
+(end center)  
+(end titlepage)
+
+
+Esse arquivo pode ser ajustado para inserir novos títulos, autores, datas ou versões.
+
+\section{Configuração do plano de fundo (marca d’água)}
+
+O plano de fundo é definido no arquivo:
+
+settings/background.tex
+
+Utiliza o pacote "background" com estrutura semelhante a:
+
+usepackage{background}  
+backgroundsetup{  
+	scale = 1,  
+	angle = 0,  
+	opacity = 0.07,  
+	contents = {imagem de fundo no tamanho da página}  
+}
+
+Importante: a imagem chamada background.png deve estar presente no diretório correto.
+
+\section{Dicas de uso e personalização}
+
+- Para remover o fundo em páginas específicas, como a capa, use:  
+backgroundsetup{contents={}}
+
+- O fundo pode ser trocado por outra imagem com o mesmo formato;
+- A opacidade pode ser ajustada com o parâmetro "opacity";
+- Recomenda-se uma imagem com resolução mínima de 150 DPI.
+
+\section{Cores na capa}
+
+A arte da capa criada no Canva inclui uma barra inferior colorida. Essa barra deve utilizar a cor correspondente à etapa do projeto, conforme a paleta oficial (ver Capítulo 6).
+
+Recomendação: cada entrega (relatório técnico, documento ou produto) deve seguir a cor indicada para sua etapa. Isso garante:
+
+- Identificação clara da etapa;
+- Padronização visual entre os documentos;
+- Coerência com os relatórios enviados ao BNDES.
+
+Exemplo: um relatório da Etapa 4 da Meta 1 deve utilizar a cor meta1etapa4, conforme definida no arquivo settings/setcolor.tex.

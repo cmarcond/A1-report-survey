@@ -1,0 +1,19 @@
+% settings/setlayout.tex
+% --- Configuração de layout de página e numeração ---
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\fancyhf{}                    % Limpa cabeçalho e rodapé
+\fancyfoot[R]{\thepage}       % Número da página no canto inferior direito
+\renewcommand{\headrulewidth}{0pt} % Remove linha superior
+\renewcommand{\footrulewidth}{0pt} % Remove linha inferior
+\setlength{\footskip}{30pt}   % Espaço do rodapé
+
+% Aplica o mesmo layout à página de abertura dos capítulos
+\fancypagestyle{plain}{%
+	\fancyhf{}
+	\fancyfoot[R]{\thepage}
+	\renewcommand{\headrulewidth}{0pt}
+	\renewcommand{\footrulewidth}{0pt}
+}

@@ -1,0 +1,43 @@
+% settings/settitles.tex
+% --- Estilo e formatação dos títulos do template AIRDATA ---
+
+\RequirePackage{titlesec}
+
+% Mostra a numeração até subsubsection
+\setcounter{secnumdepth}{3}
+
+% -------------------------------
+% CAPÍTULO (CHAPTER) — 16 pt, azul, normal
+% -------------------------------
+\titleformat{\chapter}[hang]
+{\color{airdataBlue}\normalfont\fontsize{16}{20}\selectfont}
+{\thechapter}{1em}{}
+
+% -------------------------------
+% SEÇÃO (SECTION) — 14 pt, azul, itálico
+% -------------------------------
+\titleformat{\section}
+{\color{airdataBlue}\normalfont\fontsize{14}{18}\selectfont}
+{\thesection}{1em}{}
+
+% -------------------------------
+% SUBSEÇÃO (SUBSECTION) — 14 pt, azul, itálico
+% -------------------------------
+\titleformat{\subsection}
+{\color{airdataBlue}\normalfont\itshape\fontsize{14}{17}\selectfont}
+{\thesubsection}{1em}{}
+
+% -------------------------------
+% SUBSUBSEÇÃO (SUBSUBSECTION) — 12 pt, azul, itálico
+% -------------------------------
+\titleformat{\subsubsection}
+{\color{airdataBlue}\normalfont\itshape\fontsize{12}{14}\selectfont}
+{\thesubsubsection}{1em}{}
+
+% -------------------------------
+% Espaçamento vertical entre título e texto
+% -------------------------------
+\titlespacing*{\chapter}      {0pt}{20pt plus 2pt}{10pt plus 2pt}
+\titlespacing*{\section}      {0pt}{16pt plus 2pt}{8pt plus 2pt}
+\titlespacing*{\subsection}   {0pt}{14pt plus 2pt}{6pt plus 2pt}
+\titlespacing*{\subsubsection}{0pt}{12pt plus 2pt}{4pt plus 2pt}

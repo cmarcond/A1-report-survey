@@ -1,0 +1,29 @@
+% defs_fonts.tex
+% --- Fontes utilizadas no template AIRDATA ---
+
+% Define a fonte principal do documento
+\setmainfont{CheltenhamITCPro-Book}[
+Path = ./fonts/,
+Extension = .otf,
+ItalicFont = CheltenhamITCPro-BookItalic,
+BoldFont = CheltenhamITCPro-Bold,
+BoldItalicFont = CheltenhamITCPro-BoldItalic
+]
+
+% Define a fonte "Light" como comando \useFontLight
+\newfontfamily\useFontLight{CheltenhamITCPro-Light}[
+Path = ./fonts/,
+Extension = .otf,
+ItalicFont = CheltenhamITCPro-LightItalic
+]
+
+% Define a fonte "Ultra" como comando \useFontUltra
+\newfontfamily\useFontUltra{CheltenhamITCPro-Ultra}[
+Path = ./fonts/,
+Extension = .otf,
+ItalicFont = CheltenhamITCPro-UltraItalic
+]
+
+
+\providecommand{\useFontLight}{}
+\providecommand{\useFontUltra}{}

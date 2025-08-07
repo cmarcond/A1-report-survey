@@ -1,0 +1,17 @@
+% settings/background.tex
+% --- Imagem de fundo em todas as páginas ---
+
+% Comando seguro para definir a imagem de fundo
+\providecommand\BackgroundPic{%
+	\put(0,0){%
+		\parbox[b][\paperheight]{\paperwidth}{%
+			\vfill
+			\centering
+			\includegraphics[width=\paperwidth,height=\paperheight]{capas/background.png}%
+			\vfill
+		}%
+	}%
+}
+
+% Aplica a imagem de fundo em TODAS as páginas
+\AddToShipoutPictureBG{\BackgroundPic}

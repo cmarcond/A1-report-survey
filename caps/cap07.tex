@@ -1,0 +1,85 @@
+\chapter{Estilo de Títulos e Numeração}
+
+A identidade visual dos títulos (capítulos, seções e subseções) é configurada por meio do arquivo:
+
+\begin{verbatim}
+	settings/settitles.tex
+\end{verbatim}
+
+Esse arquivo utiliza o pacote `titlesec` para modificar o estilo padrão do LaTeX e aplicar:
+
+\begin{itemize}
+	\item Fontes com peso e caixa específicos;
+	\item Controle de espaçamentos verticais;
+	\item Numeração estilizada;
+	\item Alinhamento e cor.
+\end{itemize}
+
+\section{Títulos de capítulo}
+
+Exemplo de configuração para o comando \verb|\chapter|:
+
+\begin{verbatim}
+	\titleformat{\chapter}[display]
+	{\normalfont\bfseries\Huge}
+	{\chaptername\ \thechapter}
+	{1ex}
+	{\vspace{0.5ex}}
+	\titlespacing*{\chapter}{0pt}{-10pt}{20pt}
+\end{verbatim}
+
+Explicação dos parâmetros:
+
+\begin{itemize}
+	\item Usa a palavra "Capítulo" seguida do número: \verb|\chaptername \thechapter|;
+	\item \verb|\Huge| aumenta o tamanho da fonte do título;
+	\item Os espaçamentos antes e depois do título são definidos por \verb|\titlespacing|;
+	\item A formatação usa negrito (\verb|\bfseries|) e fonte normal (\verb|\normalfont|).
+\end{itemize}
+
+\section{Títulos de seção e subseção}
+
+Exemplo para o comando \verb|\section|:
+
+\begin{verbatim}
+	\titleformat{\section}
+	{\normalfont\bfseries\Large}
+	{\thesection}{1em}{}
+	\titlespacing*{\section}{0pt}{2ex plus 1ex}{1ex}
+\end{verbatim}
+
+Exemplo para o comando \verb|\subsection|:
+
+\begin{verbatim}
+	\titleformat{\subsection}
+	{\normalfont\itshape\large}
+	{\thesubsection}{1em}{}
+\end{verbatim}
+
+Esses estilos mantêm a hierarquia visual clara e consistente entre os níveis de título.
+
+\section{Numeração de títulos}
+
+A numeração automática é gerada com os comandos \verb|\thesection| e \verb|\thesubsection|.
+
+Para remover a numeração de títulos:
+
+\begin{verbatim}
+	\setcounter{secnumdepth}{0}
+\end{verbatim}
+
+Ou, para seções específicas, é possível redefinir o estilo com:
+
+\begin{verbatim}
+	\titleformat{\section}[block]
+	{\normalfont\bfseries}{}{0pt}{}
+\end{verbatim}
+
+\section{Recomendações}
+
+\begin{itemize}
+	\item Use sempre espaçamentos verticais consistentes antes e depois dos títulos;
+	\item Evite o uso de letras maiúsculas em todos os títulos;
+	\item Alinhe o estilo dos títulos com o restante da identidade visual do projeto;
+	\item Edite o arquivo `settings/settitles.tex` para ajustar todos os estilos de forma centralizada.
+\end{itemize}

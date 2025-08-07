@@ -1,0 +1,128 @@
+\documentclass[12pt]{report}
+
+%--------------------------------------------------------------------------
+% CONFIGURAÇÕES E PACOTES
+%--------------------------------------------------------------------------
+
+\input{settings/usepackage.tex}      % pacotes essenciais (inclui xcolor)
+\input{settings/setcolor.tex}        % define cores (antes de qualquer uso!)
+
+\input{siglas/cap_siglas.tex}        % siglas e glossário (se ativado)
+
+\input{settings/setabnt.tex}         % estilo de referências ABNT
+\input{settings/setlayout.tex}       % margens, espaçamentos
+\input{settings/fonts.tex}           % fonte principal (Cheltenham)
+\input{settings/settitles.tex}       % estilo de títulos
+\input{settings/coverpage.tex}       % capa
+\input{settings/background.tex}      % marca d’água
+\input{settings/pretextualpages.tex} % sumário, listas etc.
+
+
+\begin{document}
+	
+	%--------------------------------------------------------------------------
+	% CAPA SEM NENHUMA NUMERAÇÃO
+	%--------------------------------------------------------------------------
+	\pagenumbering{gobble}
+	\makecover
+	
+	%--------------------------------------------------------------------------
+	% PÁGINAS PRÉ-TEXTUAIS SEM NUMERAÇÃO
+	%--------------------------------------------------------------------------
+	\cleardoublepage
+	\begingroup
+	\pagenumbering{gobble}
+	\pagestyle{empty}
+	\input{caps/cap_pretexto.tex}  % histórico de versões, equipe etc.
+	\endgroup
+	
+	%--------------------------------------------------------------------------
+	% CONTEÚDO COM NUMERAÇÃO ARÁBICA
+	%--------------------------------------------------------------------------
+	\cleardoublepage
+	\pagenumbering{arabic}
+	\setcounter{page}{1}
+	\pagestyle{plain}
+	
+	%--------------------------------------------------------------------------
+	% SUMÁRIO E LISTAS
+	%--------------------------------------------------------------------------
+	\tableofcontents
+	
+	\cleardoublepage
+	
+     \printglossary[type=\acronymtype, title=Lista de Siglas]
+
+	
+	\cleardoublepage
+	\listoffigures
+	
+	\cleardoublepage
+	\listoftables
+	
+	%--------------------------------------------------------------------------
+	% CAPÍTULOS
+	%--------------------------------------------------------------------------
+	\cleardoublepage
+	\pagestyle{plain}
+	\input{caps/cap00.tex}
+	
+	\cleardoublepage
+	\pagestyle{plain}
+	\input{caps/cap01.tex}
+	
+	\cleardoublepage
+	\pagestyle{plain}
+	\input{caps/cap02.tex}
+	
+	
+	\cleardoublepage
+	\pagestyle{plain}
+	\input{caps/cap03.tex}
+	
+	
+	\cleardoublepage
+	\pagestyle{plain}
+	\input{caps/cap04.tex}
+	
+	
+	\cleardoublepage
+	\pagestyle{plain}
+	\input{caps/cap05.tex}
+	
+	
+	\cleardoublepage
+	\pagestyle{plain}
+	\input{caps/cap06.tex}
+	
+	
+	\cleardoublepage
+	\pagestyle{plain}
+	\input{caps/cap07.tex}
+	
+	\cleardoublepage
+	\pagestyle{plain}
+	\input{caps/cap08.tex}
+	
+	\cleardoublepage
+	\pagestyle{plain}
+	\input{caps/cap09.tex}
+	
+	
+		
+	\cleardoublepage
+	\pagestyle{plain}
+	\input{caps/cap10.tex}
+	
+	
+			
+	\cleardoublepage
+	\pagestyle{plain}
+	\input{caps/cap11.tex}
+	
+	\bibliographystyle{abntex2-alf}
+	\bibliography{abntex2-options,refs/referencias}
+
+	
+	
+\end{document}

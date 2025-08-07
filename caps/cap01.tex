@@ -1,0 +1,37 @@
+\chapter{Introdução ao Template TED ITA-SAC}
+
+Este manual documenta o uso e as boas práticas associadas ao \textbf{Template ITA-SAC}, desenvolvido no contexto do projeto Estudos para a Aviação de Hoje e do Amanhã. O template foi concebido para garantir padronização, qualidade visual e conformidade com as normas técnicas e científicas exigidas em relatórios e entregas institucionais.
+
+O modelo está implementado em \LaTeX, com modularização completa para facilitar a manutenção, customização e reuso por diferentes autores. A compilação deve ser feita utilizando o motor \texttt{XeLaTeX}, pois o sistema de fontes depende do pacote \texttt{fontspec}, utilizado para habilitar a tipografia oficial do projeto (Cheltenham ITC Pro).
+
+\vspace{1em}
+
+\textbf{Principais características do template:}
+\begin{itemize}
+    \item Estrutura modular com arquivos separados para capa, plano de fundo, layout, fontes, cores e títulos;
+    \item Compatível com normas da ABNT (\texttt{abntex2cite});
+    \item Fonte principal: \textbf{Cheltenham ITC Pro}, via XeLaTeX;
+    \item Estilo visual limpo e profissional, com suporte a capa institucional e marca d’água;
+    \item Compilação automatizada via \texttt{Makefile};
+    \item Pronto para inclusão de capítulos, glossários, siglas e bibliografia.
+\end{itemize}
+
+\vspace{1em}
+
+\textbf{Estrutura de diretórios:}
+
+\begin{verbatim}
+	.
+	|- main.tex                 % Arquivo principal
+	|- settings/                % Configurações gerais
+	|  |- background.tex        % Marca d’água e fundo
+	|  |- coverpage.tex         % Página de capa
+	|  |- fonts.tex             % Fonte Cheltenham
+	|  |- ...
+	|- caps/                    % Capítulos do relatório
+	|- Makefile                 % Automação
+\end{verbatim}
+
+Este documento é dividido em capítulos, cada um explicando um aspecto do template, para que os autores possam modificar e estender com segurança, mantendo a padronização do projeto Estudos para a Aviação de Hoje e do Amanhã.
+
+

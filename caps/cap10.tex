@@ -1,0 +1,48 @@
+\chapter{Referências e Estilo ABNT}
+
+O template TED ITA-SAC utiliza o estilo de citações e referências conforme as normas da ABNT, implementado via o pacote abntex2cite em conjunto com o BibTeX. Essa abordagem permite o uso padronizado de citações autor-data e a geração automática da lista de referências.
+
+\section{Configuração do estilo}
+
+A configuração está centralizada no arquivo:
+
+settings/setabnt.tex
+
+O arquivo de referências utilizado deve estar em formato BibTeX (.bib), preferencialmente localizado em:
+
+refs/referencias.bib
+
+\section{Exemplos de citações reais}
+
+Abaixo estão exemplos práticos utilizando as chaves presentes no arquivo `.bib`:
+
+Segundo \citeonline{murca2020characterizing}, a análise do desempenho do espaço aéreo brasileiro pode ser realizada por meio de dados de trajetória.
+
+Estudos sobre priorização de investimentos em aeródromos da aviação geral são apresentados em \cite{caetano2022criteria}.
+
+A ineficiência vertical em procedimentos de descida foi discutida por \cite{szenczuk2021causalvertical} sob uma abordagem causal.
+
+\section{Citação múltipla}
+
+Também é possível citar múltiplas referências no mesmo trecho:
+
+Diversos autores têm contribuído para o tema da infraestrutura e operação aérea no Brasil \cite{murca2020characterizing, caetano2022criteria, szenczuk2021causalvertical}.
+
+
+\section{Compilação com BibTeX}
+
+A sequência recomendada para compilar e gerar corretamente as referências é:
+
+1. Rodar `xelatex main.tex`  
+2. Rodar `bibtex main.aux`  
+3. Rodar `xelatex main.tex` duas vezes
+
+Se estiver usando o Makefile do template, isso já está automatizado com:
+
+make
+
+\section{Observações}
+
+- As chaves entre chaves `{}` devem coincidir exatamente com as do arquivo `.bib`.
+- A ordem de chamada das referências será ajustada automaticamente com base na ordem de citação no texto.
+- Referências não citadas no texto não aparecerão na bibliografia final.

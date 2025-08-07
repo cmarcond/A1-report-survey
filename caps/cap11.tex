@@ -1,0 +1,21 @@
+\chapter{Siglas e Glossário}
+
+O template TED ITA-SAC oferece suporte à criação automática de listas de siglas e de termos técnicos por meio do pacote \texttt{glossaries-extra}. Ele permite organizar e exibir os acrônimos usados ao longo do documento, de forma consistente e padronizada.
+
+\section{Definição das siglas}
+
+As siglas são definidas no arquivo: cap\_siglas.tex
+
+
+\section{Uso no corpo do texto}
+
+As siglas podem ser usadas normalmente com o comando \verb|\gls|. Veja os exemplos a seguir:
+
+\begin{itemize}
+	\item A \gls{icao} é o órgão responsável por padronizar normas internacionais de aviação;
+	\item O \gls{ganp} estabelece a visão de longo prazo para o desenvolvimento do \gls{atm};
+	\item Iniciativas como o \gls{utmx} buscam integrar soluções de mobilidade aérea urbana.
+\end{itemize}
+
+Na primeira ocorrência de cada sigla, será exibido o significado completo seguido da abreviação. Nas ocorrências seguintes, apenas a abreviação.
+

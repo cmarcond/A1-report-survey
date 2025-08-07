@@ -1,0 +1,17 @@
+% settings/pretextualpages.tex
+% Define o background exclusivo para páginas pré-textuais
+
+\newenvironment{pretextualblock}
+{
+	\ClearShipoutPictureBG
+	\AddToShipoutPictureBG{
+		\put(0,0){
+			\parbox[b][\paperheight]{\paperwidth}{%
+				\includegraphics[width=\paperwidth,height=\paperheight]{capas/background_pretex}%
+			}
+		}
+	}
+}
+{
+	\input{settings/background.tex} % Restaura o background padrão
+}

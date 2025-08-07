@@ -1,0 +1,83 @@
+\chapter{Elementos Pré-textuais}
+
+O template TED ITA-SAC inclui uma estrutura pré-definida para os elementos obrigatórios antes do conteúdo técnico. Essa estrutura é configurada no arquivo:
+
+\begin{verbatim}
+	settings/pretextualpages.tex
+\end{verbatim}
+
+\section{Elementos incluídos}
+
+Por padrão, o arquivo ativa os seguintes componentes:
+
+\begin{itemize}
+	\item Sumário (comando \texttt{\textbackslash tableofcontents});
+	\item Lista de figuras (comando \texttt{\textbackslash listoffigures});
+	\item Lista de tabelas (comando \texttt{\textbackslash listoftables});
+	\item Página de controle de versão (opcional);
+	\item Marca d’água (ativada no fundo de cada página).
+\end{itemize}
+
+\section{Sumário e listas}
+
+A geração do sumário e das listas é automática, com base nos comandos \verb|\chapter|, \verb|\section|, \verb|\caption| e similares.
+
+Para incluir os elementos, basta inserir no arquivo principal \texttt{main.tex}:
+
+\begin{verbatim}
+	\input{settings/pretextualpages.tex}
+\end{verbatim}
+
+E no conteúdo desse arquivo, deve constar:
+
+\begin{verbatim}
+	\tableofcontents
+	\listoffigures
+	\listoftables
+	\cleardoublepage
+\end{verbatim}
+
+\section{Folha de versão}
+
+A folha de controle de versão pode ser incluída antes do conteúdo técnico com:
+
+\begin{verbatim}
+	\input{caps/cap_controleversao.tex}
+\end{verbatim}
+
+Esse arquivo pode conter uma tabela com histórico de alterações, como:
+
+\begin{center}
+	\begin{tabular}{|c|c|c|l|}
+		\hline
+		Versão & Data & Responsável & Descrição \\
+		\hline
+		1.0 & 01/08/2025 & Coordenação & Documento inicial \\
+		1.1 & 05/08/2025 & Revisores & Correções ortográficas \\
+		\hline
+	\end{tabular}
+\end{center}
+
+\section{Numeração romana}
+
+Antes do início do conteúdo principal, a numeração é configurada em algarismos romanos:
+
+\begin{verbatim}
+	\pagenumbering{roman}
+	\pagestyle{empty}
+\end{verbatim}
+
+Essa numeração é trocada para arábica ao iniciar o corpo do relatório:
+
+\begin{verbatim}
+	\cleardoublepage
+	\pagenumbering{arabic}
+\end{verbatim}
+
+\section{Boas práticas}
+
+\begin{itemize}
+	\item Mantenha a ordem: capa $\rightarrow$ controle de versão $\rightarrow$ sumário/listas $\rightarrow$ conteúdo;
+	\item Use sempre \verb|\cleardoublepage| entre seções principais para garantir início em página ímpar;
+	\item Atualize a folha de versão a cada entrega formal do projeto.
+\end{itemize}

@@ -1,0 +1,69 @@
+\chapter{Estrutura do Template}
+
+O template TED ITA-SAC foi organizado de forma modular, para facilitar manutenção, reuso e colaboração entre diferentes autores. A estrutura principal está organizada da seguinte forma:
+
+\section{Visão geral}
+
+\begin{verbatim}
+	.
+	|- main.tex                 % Arquivo principal (documento raiz)
+	|- settings/                % Configurações gerais
+	|  |- background.tex        % Marca d’água e fundo
+	|  |- coverpage.tex         % Página de capa
+	|  |- fonts.tex             % Fonte Cheltenham
+	|  |- pretextualpages.tex  % Sumário, listas, elementos iniciais
+	|  |- setabnt.tex          % Estilo de citação ABNT
+	|  |- setcolor.tex         % Paleta de cores do template
+	|  |- setlayout.tex        % Margens, espaçamento, cabeçalho
+	|  |- settitles.tex        % Estilo de títulos e capítulos
+	|  \_ usepackage.tex       % Pacotes utilizados no projeto
+	|- caps/                   % Capítulos do relatório
+	|  |- cap00.tex            % Introdução
+	|  |- cap01.tex            % Conteúdo específico
+	|  \_ etc.
+	|- siglas/                 % (Opcional) Siglas, glossários
+	|- refs/                   % (Opcional) Arquivos .bib
+	\_ Makefile                % Automação de compilação
+\end{verbatim}
+
+
+\section{Função de cada componente}
+
+\begin{itemize}
+    \item \texttt{main.tex}: ponto de entrada do projeto. Controla a ordem dos elementos.
+    \item \texttt{settings/}: conjunto de arquivos para configurar todos os aspectos do template.
+    \item \texttt{caps/}: contém os capítulos do relatório (modularizados).
+    \item \texttt{siglas/}: pasta destinada ao glossário e acrônimos, caso ativado.
+    \item \texttt{refs/}: local sugerido para o arquivo de bibliografia (\texttt{.bib}).
+    \item \texttt{Makefile}: automatiza as etapas de compilação (XeLaTeX + BibTeX + Glossário).
+\end{itemize}
+
+\section{Ordem de carregamento no \texttt{main.tex}}
+
+O arquivo \texttt{main.tex} importa os componentes da seguinte forma:
+
+\begin{verbatim}
+\input{settings/usepackage.tex}
+\input{settings/setabnt.tex}
+\input{settings/setlayout.tex}
+\input{settings/fonts.tex}
+\input{settings/setcolor.tex}
+\input{settings/settitles.tex}
+\input{settings/coverpage.tex}
+\input{settings/background.tex}
+\input{settings/pretextualpages.tex}
+\end{verbatim}
+
+Essa ordem é proposital para garantir que os pacotes e estilos sejam carregados antes dos elementos visuais como capa e plano de fundo.
+
+\section{Sugestão de novos capítulos}
+
+Novos arquivos podem ser adicionados à pasta \texttt{caps/} com nomes como \texttt{cap03.tex}, \texttt{cap04.tex}, etc. A inclusão no documento é feita via:
+
+\begin{verbatim}
+\input{caps/cap03.tex}
+\end{verbatim}
+
+Recomenda-se utilizar comandos \verb|\chapter| dentro de cada arquivo, para manter a consistência da numeração.
+
+

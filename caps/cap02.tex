@@ -1,0 +1,80 @@
+\chapter{Requisitos e Instalação}
+
+Este capítulo apresenta os requisitos técnicos para compilar e personalizar o \textbf{Template TED ITA-SAC}, bem como orientações de instalação em diferentes ambientes.
+
+\section{Ambiente recomendado}
+
+O template foi testado e validado em:
+\begin{itemize}
+    \item \textbf{Distribuição \LaTeX:} TeX Live 2023 ou superior (recomendado: TeX Live 2025);
+    \item \textbf{Compilador:} XeLaTeX (\texttt{xelatex});
+    \item \textbf{Editor:} TeXstudio, VSCode + LaTeX Workshop, Overleaf (parcial).
+\end{itemize}
+
+\section{Instalação no Linux (TeX Live)}
+
+Para usuários Linux (ex: Ubuntu), recomenda-se a instalação do TeX Live completo:
+
+\begin{verbatim}
+sudo apt update
+sudo apt install texlive-full
+\end{verbatim}
+
+Caso deseje controle via \texttt{tlmgr}, instale a versão mais recente diretamente do site da TeX Live:
+\url{https://www.tug.org/texlive/acquire-netinstall.html}
+
+\section{Instalação de fontes (Cheltenham ITC Pro)}
+
+A fonte \textbf{Cheltenham ITC Pro} deve estar instalada no sistema operacional. Copie os arquivos \texttt{.otf} para o diretório de fontes do sistema (exemplo para Linux):
+
+\begin{verbatim}
+mkdir -p ~/.fonts/cheltenham
+cp *.otf ~/.fonts/cheltenham/
+fc-cache -fv
+\end{verbatim}
+
+No Windows, clique com o botão direito nos arquivos \texttt{.otf} e escolha \textit{"Instalar"}.
+
+\section{Compilação com Makefile (recomendado)}
+
+A compilação automática pode ser feita via \texttt{make}, no terminal, a partir do diretório do projeto:
+
+\begin{verbatim}
+make
+\end{verbatim}
+
+Esse comando realiza:
+\begin{enumerate}
+    \item Compilação com XeLaTeX;
+    \item Geração de glossário (se ativado);
+    \item Execução do BibTeX;
+    \item Duas recompilações para acerto de referências.
+\end{enumerate}
+
+\section{Uso no Overleaf}
+
+Para uso online:
+\begin{itemize}
+    \item A compilação deve ser configurada como XeLaTeX;
+    \item Os arquivos de fonte \texttt{.otf} devem ser enviados ao projeto;
+    \item O glossário (se usado) pode exigir configuração especial;
+    \item Limitações podem ocorrer em pacotes como \texttt{background} ou \texttt{shell-escape}.
+\end{itemize}
+
+\section{Pacotes adicionais recomendados}
+
+Certifique-se de que os seguintes pacotes estejam disponíveis:
+
+\begin{itemize}
+    \item \texttt{fontspec, xcolor, background, titlesec}
+    \item \texttt{abntex2cite, glossaries-extra, biblatex, makeindex}
+    \item \texttt{geometry, fancyhdr, enumitem, graphicx, hyperref}
+\end{itemize}
+
+Para instalar manualmente via \texttt{tlmgr}:
+
+\begin{verbatim}
+tlmgr install glossaries-extra abntex2cite background titlesec
+\end{verbatim}
+
+

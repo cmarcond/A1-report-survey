@@ -1,0 +1,66 @@
+\chapter{Fontes e Tipografia}
+
+A identidade visual do template TED ITA-SAC adota a tipografia Cheltenham ITC Pro como fonte principal. Essa fonte deve estar instalada no sistema operacional, pois sua ativação depende do pacote fontspec, que só funciona com o compilador XeLaTeX.
+
+\section{Configuração no template}
+
+A configuração da fonte é realizada no arquivo:
+
+settings/fonts.tex
+
+Seu conteúdo básico é:
+
+usepackage{fontspec}
+setmainfont[
+Path = ./fonts/,
+Extension = .otf,
+UprightFont = *-Roman,
+BoldFont = *-Bold,
+ItalicFont = *-Italic,
+BoldItalicFont = *-BoldItalic
+]{Cheltenham}
+
+Observação: a fonte precisa estar disponível no diretório "fonts/" ou instalada no sistema com esse mesmo nome (Cheltenham).
+
+\section{Instalação da fonte}
+
+Em sistemas Linux:
+- Crie o diretório de fontes e atualize o cache:
+
+mkdir -p ~/.fonts/cheltenham  
+cp *.otf ~/.fonts/cheltenham/  
+fc-cache -fv
+
+Em sistemas Windows:
+- Clique com o botão direito nos arquivos .otf e selecione "Instalar".
+
+Em sistemas macOS:
+- Clique duas vezes nos arquivos .otf e clique em "Instalar fonte".
+
+\section{Compilador: XeLaTeX obrigatório}
+
+A compilação deve ser feita exclusivamente com o compilador xelatex, pois os pacotes fontspec e polyglossia (ou babel com suporte a unicode) exigem esse motor para ativar fontes do sistema ou arquivos OpenType.
+
+Para compilar no terminal:
+
+xelatex main.tex
+
+Ou via Makefile:
+
+make
+
+\section{Mensagens de erro comuns}
+
+- Font not found: a fonte não está instalada ou o nome está incorreto.
+- Missing character: There is no...: está sendo usado um caractere Unicode que a fonte atual não suporta.
+- Package fontspec Error: The font "Cheltenham" cannot be found: verifique se os arquivos .otf estão acessíveis no caminho correto.
+
+\section{Sugestões para fallback}
+
+Se não desejar usar Cheltenham, é possível substituir por outra fonte compatível. Exemplos:
+
+setmainfont{TeX Gyre Pagella}  
+ou  
+setmainfont{Times New Roman}
+
+Importante: fontes padrão como Times ou Latin Modern não representam a identidade visual original do projeto TED ITA-SAC.

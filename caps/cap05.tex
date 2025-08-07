@@ -1,0 +1,89 @@
+\chapter{Layout e Margens}
+
+O controle da geometria da página no template TED ITA-SAC é feito por meio do arquivo:
+
+\begin{verbatim}
+	settings/setlayout.tex
+\end{verbatim}
+
+Esse arquivo configura as margens, espaçamentos, cabeçalhos e rodapés, garantindo uma apresentação institucionalmente adequada e confortável para leitura.
+
+\section{Configuração de margens}
+
+O pacote \texttt{geometry} é utilizado para definir as dimensões da página:
+
+\begin{verbatim}
+	\usepackage[
+	a4paper,
+	left=3cm,
+	right=2.5cm,
+	top=3cm,
+	bottom=2.5cm,
+	headheight=16pt,
+	includeheadfoot
+	]{geometry}
+\end{verbatim}
+
+Essas medidas foram adotadas com base em boas práticas de editoração técnica e podem ser ajustadas conforme a necessidade.
+
+\section{Espaçamento entre linhas}
+
+O espaçamento é controlado por:
+
+\begin{verbatim}
+	\linespread{1.25}
+\end{verbatim}
+
+O valor `1.25` representa um espaçamento levemente expandido (equivalente a 1,5 linhas no Word). Esse valor proporciona boa legibilidade sem comprometer a economia de páginas.
+
+\section{Cabeçalhos e rodapés}
+
+O pacote \texttt{fancyhdr} é utilizado para personalizar cabeçalhos e rodapés:
+
+\begin{verbatim}
+	\usepackage{fancyhdr}
+	\pagestyle{fancy}
+	\fancyhf{}
+	\fancyhead[R]{\thepage}
+	\fancyhead[L]{\slshape \nouppercase{\leftmark}}
+	\renewcommand{\headrulewidth}{0.4pt}
+\end{verbatim}
+
+Com essa configuração:
+
+\begin{itemize}
+	\item O número da página aparece no canto superior direito;
+	\item O título do capítulo aparece no canto superior esquerdo;
+	\item A linha divisória do cabeçalho é ativada;
+	\item O rodapé permanece vazio.
+\end{itemize}
+
+\section{Outros ajustes úteis}
+
+Você pode adicionar a data ou título do projeto ao rodapé, exemplo:
+
+\begin{verbatim}
+	\fancyfoot[C]{Projeto TED ITA-SAC}
+\end{verbatim}
+
+Para capítulos específicos com layout limpo (como capa ou versão), o comando abaixo pode ser usado:
+
+\begin{verbatim}
+	\thispagestyle{empty}
+\end{verbatim}
+
+\section{Sugestão de personalização}
+
+Para suprimir o título do capítulo nos cabeçalhos de páginas pares e manter somente o número da página, use:
+
+\begin{verbatim}
+	\fancyhead[L]{}
+	\fancyhead[R]{\thepage}
+\end{verbatim}
+
+Ou, para remover tudo:
+
+\begin{verbatim}
+	\pagestyle{empty}
+\end{verbatim}
+

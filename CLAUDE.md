@@ -10,11 +10,18 @@ This is a professional LaTeX report template for the ITA-SAC (Instituto Tecnoló
 
 ### Building the Document
 ```bash
-make              # Full compilation with dependency installation
+make              # Full compilation with dependency installation, colors, and dynamic cover
 make quick        # Single-pass compilation (faster, for small changes)
 make view         # Compile and open PDF
 make watch        # Auto-recompile on file changes
 make clean        # Remove all generated files
+```
+
+### Dynamic Cover System
+```bash
+make generate-cover    # Generate cover from JSON config only
+# Cover config: config/cover_config.json
+# Generated LaTeX params: settings/cover_params.tex
 ```
 
 ### Development Workflow

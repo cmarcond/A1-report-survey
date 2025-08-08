@@ -1,0 +1,76 @@
+% settings/dynamic_coverpage.tex
+% ===============================================================
+% DYNAMIC COVER PAGE GENERATOR
+% ===============================================================
+% This file generates the cover page using parameters from
+% settings/cover_config.tex. To customize the cover, edit that file.
+% ===============================================================
+
+% Load all configuration parameters
+\input{settings/cover_config}
+
+% ---------------------------------------------------------------
+% Cover Page Generation Command
+% ---------------------------------------------------------------
+\newcommand\makeDynamicCover{%
+  \ClearShipoutPictureBG
+
+  \begin{titlepage}
+    \thispagestyle{empty}
+
+    \begin{tikzpicture}[remember picture, overlay]
+
+      % ------------ Background Color ----------------------------
+      \fill[\coverBgColor] (current page.south west) rectangle (current page.north east);
+
+      % ------------ Institution Logo (top-left) -----------------
+      \node[anchor=north west, xshift=\logoTopOffset, yshift=-\logoTopOffset]
+        at (current page.north west)
+        {\includegraphics[width=\institutionLogoWidth]{\institutionLogo}};
+
+      % ------------ Institution Name + Meta/Etapa (top-right) ---
+      \node[anchor=north east, xshift=-\logoSideOffset, yshift=-\logoTopOffset,
+            align=right, text=\headerTextColor]
+        at (current page.north east) {%
+          \fontsize{\institutionFontSize}{0}\selectfont\bfseries \institutionName\\[0.8em]
+          \fontsize{\metaEtapaFontSize}{0}\selectfont Meta \projectMeta\\[0.8em]
+          \fontsize{\metaEtapaFontSize}{0}\selectfont Etapa \projectEtapa \ \projectEtapaTitle
+        };
+
+      % ------------ Project Logo (center) -----------------------
+      \node[anchor=center, yshift=0cm] (mainLogo)
+        at (current page.center)
+        {\includegraphics[width=\projectLogoWidth]{\projectLogo}};
+
+      % ------------ Date (bottom-right) -------------------------
+      \node[anchor=south east, xshift=-\logoSideOffset, yshift=3.9cm,
+            text=\headerTextColor]
+        at (current page.south east)
+        {\fontsize{\dateFontSize}{0}\selectfont \projectMonth\ \projectYear};
+
+      % ------------ Footer Bar ----------------------------------
+      \fill[\coverFooterColor] (current page.south west) rectangle ++(\paperwidth, \footerHeight);
+
+      % ------------ Footer Text ---------------------------------
+      \node[anchor=south west, xshift=\logoSideOffset, yshift=\footerTextOffset,
+            align=left, text=\footerTextColor]
+        at (current page.south west) {%
+          \fontsize{\productFontSize}{0}\selectfont\bfseries Produto \productNumber\\[0.5em]
+          \fontsize{\titleFontSize}{0}\selectfont \projectTitle
+        };
+
+    \end{tikzpicture}
+  \end{titlepage}
+
+  \ClearShipoutPictureBG
+  \AddToShipoutPictureBG{\BackgroundPic}
+}
+
+% ---------------------------------------------------------------
+% Alias for backwards compatibility
+% ---------------------------------------------------------------
+\newcommand\makecover{\makeDynamicCover}
+
+% ===============================================================
+% END OF COVER PAGE GENERATOR
+% ===============================================================

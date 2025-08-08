@@ -1,4 +1,7 @@
-# LaTeX temporary files
+# Build directory (contains all compilation outputs)
+build/
+
+# LaTeX temporary files (fallback for any files in root)
 *.aux
 *.log
 *.bbl

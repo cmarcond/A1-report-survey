@@ -16,13 +16,14 @@ endif
 
 # Variables
 MAIN = main
+BUILD_DIR = build
 LATEX = xelatex
 # Alternative: use lualatex if you have issues with xelatex
 # LATEX = lualatex
 BIBTEX = bibtex
 MAKEGLOSSARIES = makeglossaries
 VIEWER = xdg-open
-LATEX_FLAGS = -interaction=nonstopmode -halt-on-error
+LATEX_FLAGS = -interaction=nonstopmode -halt-on-error -output-directory=$(BUILD_DIR)
 
 # ========================================
 # PROJECT CONFIGURATION
@@ -47,28 +48,30 @@ IMG_FILES = $(wildcard images/*.png) \
 
 # Output files
 PDF = $(MAIN).pdf
-AUX = $(MAIN).aux
-LOG = $(MAIN).log
-BBL = $(MAIN).bbl
-BLG = $(MAIN).blg
-GLO = $(MAIN).glo
-GLS = $(MAIN).gls
-GLG = $(MAIN).glg
-ACN = $(MAIN).acn
-ACR = $(MAIN).acr
-ALG = $(MAIN).alg
-IST = $(MAIN).ist
-TOC = $(MAIN).toc
-LOF = $(MAIN).lof
-LOT = $(MAIN).lot
-OUT = $(MAIN).out
+BUILD_PDF = $(BUILD_DIR)/$(MAIN).pdf
+AUX = $(BUILD_DIR)/$(MAIN).aux
+LOG = $(BUILD_DIR)/$(MAIN).log
+BBL = $(BUILD_DIR)/$(MAIN).bbl
+BLG = $(BUILD_DIR)/$(MAIN).blg
+GLO = $(BUILD_DIR)/$(MAIN).glo
+GLS = $(BUILD_DIR)/$(MAIN).gls
+GLG = $(BUILD_DIR)/$(MAIN).glg
+ACN = $(BUILD_DIR)/$(MAIN).acn
+ACR = $(BUILD_DIR)/$(MAIN).acr
+ALG = $(BUILD_DIR)/$(MAIN).alg
+IST = $(BUILD_DIR)/$(MAIN).ist
+TOC = $(BUILD_DIR)/$(MAIN).toc
+LOF = $(BUILD_DIR)/$(MAIN).lof
+LOT = $(BUILD_DIR)/$(MAIN).lot
+OUT = $(BUILD_DIR)/$(MAIN).out
 
-# Temporary files to clean
-TEMP_FILES = $(AUX) $(LOG) $(BBL) $(BLG) $(GLO) $(GLS) $(GLG) \
-             $(ACN) $(ACR) $(ALG) $(IST) $(TOC) $(LOF) $(LOT) $(OUT) \
-             *.aux *.log *.bbl *.blg *.glo *.gls *.glg *.acn *.acr \
-             *.alg *.ist *.toc *.lof *.lot *.out *.fls *.fdb_latexmk \
-             *.synctex.gz *.nav *.snm *.vrb *.dvi *.ps *.pdf
+# Temporary files to clean (now mostly in build directory)
+TEMP_FILES = $(BUILD_DIR)/*.aux $(BUILD_DIR)/*.log $(BUILD_DIR)/*.bbl $(BUILD_DIR)/*.blg \
+             $(BUILD_DIR)/*.glo $(BUILD_DIR)/*.gls $(BUILD_DIR)/*.glg $(BUILD_DIR)/*.acn \
+             $(BUILD_DIR)/*.acr $(BUILD_DIR)/*.alg $(BUILD_DIR)/*.ist $(BUILD_DIR)/*.toc \
+             $(BUILD_DIR)/*.lof $(BUILD_DIR)/*.lot $(BUILD_DIR)/*.out $(BUILD_DIR)/*.fls \
+             $(BUILD_DIR)/*.fdb_latexmk $(BUILD_DIR)/*.synctex.gz $(BUILD_DIR)/*.nav \
+             $(BUILD_DIR)/*.snm $(BUILD_DIR)/*.vrb $(BUILD_DIR)/*.dvi $(BUILD_DIR)/*.ps
 
 # Default target - automatically installs dependencies if needed
 .PHONY: all
@@ -84,12 +87,13 @@ auto-setup:
 		$(MAKE) install-deps-auto; \
 	fi
 
-# Update project color based on Meta and Etapa
+# Update project color based on configuration
 .PHONY: update-project-color
 update-project-color:
-	@echo "🎨 Setting project color for Meta $(PROJECT_META) Etapa $(PROJECT_ETAPA)"
+	@echo "🎨 Setting project color based on cover configuration"
 	@mkdir -p scripts
-	@bash scripts/update_project_color.sh "$(PROJECT_META)" "$(PROJECT_ETAPA)"
+	@bash scripts/update_project_color.sh
+
 
 # Main compilation rule
 $(PDF): $(TEX_FILES) $(IMG_FILES)
@@ -97,18 +101,21 @@ $(PDF): $(TEX_FILES) $(IMG_FILES)
 	@echo "Starting LaTeX compilation..."
 	@echo "========================================="
 	
+	# Create build directory if it doesn't exist
+	@mkdir -p $(BUILD_DIR)
+	
 	# First pass - generate aux files
 	@echo "[1/5] First LaTeX pass..."
 	@$(LATEX) $(LATEX_FLAGS) $(MAIN).tex || \
 		(echo "" && \
-		 echo "❌ Compilation failed! Check main.log for details" && \
+		 echo "❌ Compilation failed! Check $(LOG) for details" && \
 		 echo "Common issues: missing .tex files, undefined commands, or package conflicts" && \
 		 exit 1)
 	
 	# Generate glossaries if needed
-	@if [ -f $(MAIN).glo ] || [ -f $(MAIN).acn ]; then \
+	@if [ -f $(GLO) ] || [ -f $(ACN) ]; then \
 		echo "[2/5] Processing glossaries..."; \
-		$(MAKEGLOSSARIES) $(MAIN); \
+		cd $(BUILD_DIR) && $(MAKEGLOSSARIES) $(MAIN); \
 	else \
 		echo "[2/5] No glossaries to process."; \
 	fi
@@ -116,7 +123,8 @@ $(PDF): $(TEX_FILES) $(IMG_FILES)
 	# Run BibTeX if aux file exists and contains citations
 	@if grep -q "\\citation" $(AUX) 2>/dev/null; then \
 		echo "[3/5] Processing bibliography..."; \
-		$(BIBTEX) $(MAIN); \
+		cp -r refs $(BUILD_DIR)/ 2>/dev/null || true; \
+		cd $(BUILD_DIR) && $(BIBTEX) $(MAIN); \
 	else \
 		echo "[3/5] No citations found."; \
 	fi
@@ -124,12 +132,15 @@ $(PDF): $(TEX_FILES) $(IMG_FILES)
 	# Second pass - incorporate bibliography and glossaries
 	@echo "[4/5] Second LaTeX pass..."
 	@$(LATEX) $(LATEX_FLAGS) $(MAIN).tex || \
-		(echo "❌ Second pass failed! Check main.log" && exit 1)
+		(echo "❌ Second pass failed! Check $(LOG)" && exit 1)
 	
 	# Third pass - resolve cross-references
 	@echo "[5/5] Final LaTeX pass..."
 	@$(LATEX) $(LATEX_FLAGS) $(MAIN).tex || \
-		(echo "❌ Final pass failed! Check main.log" && exit 1)
+		(echo "❌ Final pass failed! Check $(LOG)" && exit 1)
+	
+	# Copy PDF to root directory for easy access
+	@cp $(BUILD_PDF) $(PDF)
 	
 	@echo "========================================="
 	@echo "✅ Compilation complete: $(PDF)"
@@ -139,8 +150,10 @@ $(PDF): $(TEX_FILES) $(IMG_FILES)
 .PHONY: quick
 quick: auto-setup
 	@echo "Quick compilation (single pass)..."
+	@mkdir -p $(BUILD_DIR)
 	@$(LATEX) $(LATEX_FLAGS) $(MAIN).tex || \
-		(echo "❌ Quick compilation failed! Check main.log" && exit 1)
+		(echo "❌ Quick compilation failed! Check $(LOG)" && exit 1)
+	@cp $(BUILD_PDF) $(PDF)
 	@echo "✅ Quick compilation complete: $(PDF)"
 
 # Force full recompilation
@@ -165,9 +178,8 @@ watch:
 .PHONY: clean
 clean:
 	@echo "Cleaning temporary files..."
-	@rm -f $(TEMP_FILES)
-	@find . -name "*.aux" -type f -delete
-	@echo "Temporary files removed."
+	@rm -rf $(BUILD_DIR)
+	@echo "Build directory removed."
 
 # Clean everything including PDF
 .PHONY: distclean
@@ -425,10 +437,13 @@ stats: $(PDF)
 .PHONY: debug
 debug:
 	@echo "Main file: $(MAIN).tex"
+	@echo "Build directory: $(BUILD_DIR)"
 	@echo "TeX files found: $(words $(TEX_FILES))"
 	@echo "BIB files found: $(words $(BIB_FILES))"
 	@echo "Image files found: $(words $(IMG_FILES))"
-	@ls -la $(MAIN).* 2>/dev/null || echo "No output files yet."
+	@echo "Output files:"
+	@ls -la $(BUILD_DIR)/$(MAIN).* 2>/dev/null || echo "No output files yet."
+	@if [ -f $(PDF) ]; then echo "Root PDF: $(PDF) exists"; fi
 
 # Prevent deletion of intermediate files
 .PRECIOUS: %.aux %.bbl %.gls %.acr

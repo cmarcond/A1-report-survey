@@ -1,8 +1,14 @@
 #!/bin/bash
-# update_project_color.sh - Update the project color based on Meta and Etapa
+# update_project_color.sh - Update the project color based on configuration
 
-PROJECT_META="${1:-2}"
-PROJECT_ETAPA="${2:-2}"
+# Read Meta and Etapa from LaTeX config or use command line parameters
+if [ -f "settings/cover_config.tex" ]; then
+    PROJECT_META=$(grep "\\\\def\\\\projectMeta{" settings/cover_config.tex | sed 's/.*{\([0-9]*\)}.*/\1/' 2>/dev/null || echo "2")
+    PROJECT_ETAPA=$(grep "\\\\def\\\\projectEtapa{" settings/cover_config.tex | sed 's/.*{\([0-9]*\)}.*/\1/' 2>/dev/null || echo "2")
+else
+    PROJECT_META="${1:-2}"
+    PROJECT_ETAPA="${2:-2}"
+fi
 
 # Define the official color codes
 declare -A COLORS

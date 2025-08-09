@@ -5,7 +5,7 @@
 %--------------------------------------------------------------------------
 
 \input{settings/usepackage.tex}      % pacotes essenciais (inclui xcolor)
-\input{settings/setcolor.tex}        % define cores (antes de qualquer uso!)
+\input{settings/setcolor.tex}        % Color definitions for both cover and document content
 
 \input{siglas/cap_siglas.tex}        % siglas e glossário (se ativado)
 
@@ -14,6 +14,7 @@
 \input{settings/fonts.tex}           % fonte principal (Cheltenham)
 \input{settings/settitles.tex}       % estilo de títulos
 \input{settings/dynamic_coverpage.tex} % dynamic cover generation
+\input{settings/dynamic_contentpage.tex} % dynamic content generation
 \input{settings/background.tex}      % marca d’água
 \input{settings/pretextualpages.tex} % sumário, listas etc.
 
@@ -24,8 +25,18 @@
 	% CAPA SEM NENHUMA NUMERAÇÃO
 	%--------------------------------------------------------------------------
 	\pagenumbering{gobble}
-	\makecover
 	
+	% =======================================================================
+	% === CHANGE THIS LINE TO CHOOSE YOUR COVER =============================
+	% =======================================================================
+	% Replace the old \makecover command with the new \makeDynamicCover command.
+	% Use "product1" for the "Tarifação" cover.
+	% Use "product2" for the "Airdata" cover.
+	% -----------------------------------------------------------------------
+	\makeDynamicCover{product2}
+	% \makeDynamicCover{product2}
+	% =======================================================================
+
 	%--------------------------------------------------------------------------
 	% PÁGINAS PRÉ-TEXTUAIS SEM NUMERAÇÃO
 	%--------------------------------------------------------------------------

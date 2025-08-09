@@ -2,17 +2,21 @@
 % ===============================================================
 % DYNAMIC COVER PAGE GENERATOR
 % ===============================================================
-% This file generates the cover page using parameters from
-% settings/cover_config.tex. To customize the cover, edit that file.
+% This file generates a cover page using a product-specific
+% configuration file from the settings directory.
+%
+% USAGE: \makeDynamicCover{product_name}
+% e.g., \makeDynamicCover{product1} or \makeDynamicCover{product2}
 % ===============================================================
-
-% Load all configuration parameters
-\input{settings/cover_config}
 
 % ---------------------------------------------------------------
 % Cover Page Generation Command
 % ---------------------------------------------------------------
-\newcommand\makeDynamicCover{%
+\newcommand\makeDynamicCover[1]{%
+  % Load the configuration file for the specified product.
+  % It expects a file named 'cover_config_#1.tex' in the 'settings' directory.
+  \input{settings/cover_config_#1.tex}
+
   \ClearShipoutPictureBG
 
   \begin{titlepage}
@@ -24,7 +28,7 @@
       \fill[\coverBgColor] (current page.south west) rectangle (current page.north east);
 
       % ------------ Institution Logo (top-left) -----------------
-      \node[anchor=north west, xshift=\logoTopOffset, yshift=-\logoTopOffset]
+      \node[anchor=north west, xshift=\logoSideOffset, yshift=-\logoTopOffset]
         at (current page.north west)
         {\includegraphics[width=\institutionLogoWidth]{\institutionLogo}};
 
@@ -38,12 +42,12 @@
         };
 
       % ------------ Project Logo (center) -----------------------
-      \node[anchor=center, yshift=0cm] (mainLogo)
+      \node[anchor=center, yshift=\projectLogoYShift] (mainLogo)
         at (current page.center)
         {\includegraphics[width=\projectLogoWidth]{\projectLogo}};
 
       % ------------ Date (bottom-right) -------------------------
-      \node[anchor=south east, xshift=-\logoSideOffset, yshift=3.9cm,
+      \node[anchor=south east, xshift=-\logoSideOffset, yshift=\dateOffsetY,
             text=\headerTextColor]
         at (current page.south east)
         {\fontsize{\dateFontSize}{0}\selectfont \projectMonth\ \projectYear};
@@ -66,11 +70,7 @@
   \AddToShipoutPictureBG{\BackgroundPic}
 }
 
-% ---------------------------------------------------------------
-% Alias for backwards compatibility
-% ---------------------------------------------------------------
-\newcommand\makecover{\makeDynamicCover}
-
 % ===============================================================
-% END OF COVER PAGE GENERATOR
+% The old '\makecover' command is now deprecated.
+% Please use '\makeDynamicCover{product_name}' instead.
 % ===============================================================

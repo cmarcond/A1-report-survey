@@ -1,0 +1,54 @@
+% settings/dynamic_contentpage.tex
+% ===============================================================
+% DYNAMIC CONTENT PAGE (fully config-driven)
+% ===============================================================
+
+\makeatletter
+\@ifpackageloaded{tikz}{}{\RequirePackage{tikz}}
+\makeatother
+\usetikzlibrary{calc}
+
+\newcommand\makeDynamicContentPage[1]{%
+  \input{settings/content_config_#1.tex}%
+  \ClearShipoutPictureBG%
+  \begin{titlepage}\thispagestyle{empty}%
+    \begin{tikzpicture}[remember picture,overlay]
+
+      % --- Header: product/meta on the left --------------------
+      \node (prod) [anchor=base west,
+                    xshift=\headerSideMargin, yshift=-\headerTopOffset]
+            at (current page.north west)
+            {{\fontfamily{\headerFontFamily}\selectfont
+              \textcolor{\productTextColor}{\fontsize{\productFontSizePt pt}{0}\selectfont \pageProductText}}};
+
+      % vertical separator aligned to prod baseline, centered by height
+      \path let \p1=(prod.base east) in
+           coordinate (sepA) at ($(prod.base east)+(\separatorSpacing,-.5*\separatorHeight)$);
+      \draw[\separatorLineColor, line width=\separatorLineWidth]
+           (sepA) -- ++(0,\separatorHeight);
+
+      % meta text to the right of the separator
+      \node (meta) [anchor=base west]
+            at ($(prod.base east)+(2*\separatorSpacing,0)$)
+            {{\fontfamily{\headerFontFamily}\selectfont
+              \textcolor{\metaTextColor}{\fontsize{\metaFontSizePt pt}{0}\selectfont \pageMetaText}}};
+
+      % --- Header: logo on the right ---------------------------
+      \node[anchor=north east,
+            xshift=-\logoRightMargin, yshift=-\logoTopOffset,
+            opacity=\logoOpacity]
+           at (current page.north east)
+           {\includegraphics[width=\institutionLogoWidth]{\pageInstitutionLogo}};
+
+      % --- Footer: logo bottom-left -----------------------------
+      \node[anchor=south west,
+            xshift=\footerSideMargin, yshift=\footerBottomOffset]
+           at (current page.south west)
+           {\includegraphics[height=\footerLogoHeight]{\pageFooterLogo}};
+
+    \end{tikzpicture}
+  \end{titlepage}%
+  \ClearShipoutPictureBG%
+  \AddToShipoutPictureBG{\BackgroundPic}%
+}
+

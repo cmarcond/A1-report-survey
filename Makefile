@@ -94,6 +94,11 @@ update-project-color:
 	@mkdir -p scripts
 	@bash scripts/update_project_color.sh
 
+# Generate background PNG from dynamic content page
+.PHONY: generate-background
+generate-background:
+	@python3 scripts/generate_background.py
+
 
 # Main compilation rule
 $(PDF): $(TEX_FILES) $(IMG_FILES)

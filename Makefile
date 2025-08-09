@@ -28,6 +28,18 @@ LATEX_FLAGS = -interaction=nonstopmode -halt-on-error -output-directory=$(BUILD_
 # ========================================
 # PROJECT CONFIGURATION
 # ========================================
+
+# Background generation configuration
+FOOTER_LOGO = images/logoAirdata.png
+PRODUCT_TEXT = Produto 1
+META_TEXT = Meta 2 | Etapa 2: Sistemas Distribuidos
+
+# Cover page configuration  
+COVER_TITLE = Relatório de Análise e Mapeamento das Bases de Dados
+COVER_MONTH = Agosto
+COVER_YEAR = 2025
+COVER_INSTITUTION_LOGO = images/logoITA.png
+COVER_PROJECT_LOGO = images/airdata_logo.png
 # Configure your project Meta and Etapa here
 # This will automatically use the correct official color
 PROJECT_META = 2
@@ -75,7 +87,7 @@ TEMP_FILES = $(BUILD_DIR)/*.aux $(BUILD_DIR)/*.log $(BUILD_DIR)/*.bbl $(BUILD_DI
 
 # Default target - automatically installs dependencies if needed
 .PHONY: all
-all: auto-setup update-project-color $(PDF)
+all: auto-setup update-project-color generate-assets $(PDF)
 
 # Automatic setup - installs missing dependencies without asking
 .PHONY: auto-setup
@@ -97,7 +109,25 @@ update-project-color:
 # Generate background PNG from dynamic content page
 .PHONY: generate-background
 generate-background:
-	@python3 scripts/generate_background.py
+	@python3 scripts/generate_background.py "$(FOOTER_LOGO)" "$(PRODUCT_TEXT)" "$(META_TEXT)"
+
+# Generate pretextual background PNG with large center ITA logo
+.PHONY: generate-background-pretex
+generate-background-pretex:
+	@python3 scripts/generate_background_pretex.py "$(FOOTER_LOGO)" "$(PRODUCT_TEXT)" "$(META_TEXT)"
+
+# Generate both backgrounds
+.PHONY: generate-backgrounds
+generate-backgrounds: generate-background generate-background-pretex
+
+# Generate cover page PNG
+.PHONY: generate-cover
+generate-cover:
+	@python3 scripts/generate_cover.py "$(FOOTER_LOGO)" "$(PRODUCT_TEXT)" "$(META_TEXT)" "$(COVER_TITLE)" "$(COVER_MONTH)" "$(COVER_YEAR)" "$(COVER_INSTITUTION_LOGO)" "$(COVER_PROJECT_LOGO)"
+
+# Generate all assets (cover and backgrounds)
+.PHONY: generate-assets
+generate-assets: generate-cover generate-backgrounds
 
 
 # Main compilation rule
@@ -153,7 +183,7 @@ $(PDF): $(TEX_FILES) $(IMG_FILES)
 
 # Quick compilation (single pass, no bibliography/glossary update)
 .PHONY: quick
-quick: auto-setup
+quick: auto-setup generate-assets
 	@echo "Quick compilation (single pass)..."
 	@mkdir -p $(BUILD_DIR)
 	@$(LATEX) $(LATEX_FLAGS) $(MAIN).tex || \

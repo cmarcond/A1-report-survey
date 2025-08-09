@@ -13,7 +13,8 @@
 \input{settings/setlayout.tex}       % margens, espaçamentos
 \input{settings/fonts.tex}           % fonte principal (Cheltenham)
 \input{settings/settitles.tex}       % estilo de títulos
-\input{settings/dynamic_coverpage.tex} % dynamic cover generation
+%\input{settings/dynamic_coverpage.tex} % original dynamic cover (kept as backup)
+\input{settings/coverpage_png.tex}      % PNG cover loader
 \input{settings/dynamic_contentpage.tex} % dynamic content generation
 \input{settings/background.tex}      % marca d’água
 \input{settings/pretextualpages.tex} % sumário, listas etc.
@@ -27,14 +28,12 @@
 	\pagenumbering{gobble}
 	
 	% =======================================================================
-	% === CHANGE THIS LINE TO CHOOSE YOUR COVER =============================
+	% === COVER PAGE GENERATION =============================================
 	% =======================================================================
-	% Replace the old \makecover command with the new \makeDynamicCover command.
-	% Use "product1" for the "Tarifação" cover.
-	% Use "product2" for the "Airdata" cover.
+	% To customize the cover, edit the parameters in:
+	% settings/dynamic_coverpage.tex
 	% -----------------------------------------------------------------------
-	\makeDynamicCover{product2}
-	% \makeDynamicCover{product2}
+	\makeDynamicCover
 	% =======================================================================
 
 	%--------------------------------------------------------------------------

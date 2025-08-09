@@ -1,23 +1,23 @@
 #!/usr/bin/env python3
 """
-generate_background.py - Generate background PNG from dynamic content page
+generate_background_pretex.py - Generate pretextual background PNG with large center ITA logo
 """
 
 import os
 import subprocess
 import sys
 
-def create_latex_file(footer_logo='images/airdata_logo.png', 
+def create_latex_file(footer_logo='images/drone_logo.png',
                       product_text='Produto 1',
-                      meta_text='Meta 1 | Etapa 6: Airdata'):
-    """Create the temporary LaTeX file with embedded config"""
+                      meta_text='Meta 2 | Etapa 6: Tarifação'):
+    """Create the temporary LaTeX file with embedded config for pretextual pages"""
     # Build the content line by line to avoid encoding issues
     lines = [
         r'\documentclass[12pt]{report}',
         r'\input{settings/usepackage.tex}',
         r'\input{settings/setcolor.tex}',
         r'',
-        r'% Embedded config from content_config_airdata.tex',
+        r'% Embedded config from content_config_pretex.tex',
         rf'\def\pageProductText{{{product_text}}}',
         rf'\def\pageMetaText{{{meta_text}}}',
         r'\def\headerFontFamily{lmr}',
@@ -25,11 +25,11 @@ def create_latex_file(footer_logo='images/airdata_logo.png',
         r'\def\pageInstitutionLogo{images/ita_traco.png}',
         rf'\def\pageFooterLogo{{{footer_logo}}}',
         r'',
-        r'\definecolor{airdataHeaderBlue}{RGB}{0,114,188}',
-        r'\definecolor{airdataHeaderText}{gray}{0.3}',
-        r'\def\productTextColor{airdataHeaderText}',
-        r'\def\metaTextColor{airdataHeaderBlue}',
-        r'\def\separatorLineColor{airdataHeaderBlue}',
+        r'\definecolor{tarifacaoHeaderBlue}{RGB}{47,132,198}',
+        r'\definecolor{tarifacaoHeaderText}{gray}{0.3}',
+        r'\def\productTextColor{tarifacaoHeaderText}',
+        r'\def\metaTextColor{tarifacaoHeaderBlue}',
+        r'\def\separatorLineColor{tarifacaoHeaderBlue}',
         r'',
         r'\def\headerTopOffset{1.10cm}',
         r'\def\headerSideMargin{0.6cm}',
@@ -47,6 +47,10 @@ def create_latex_file(footer_logo='images/airdata_logo.png',
         r'\def\footerBottomOffset{0.50cm}',
         r'\def\footerSideMargin{0.45cm}',
         r'\def\footerLogoHeight{1.40cm}',
+        r'',
+        r'% Center ITA logo settings',
+        r'\def\centerItaLogoWidth{12cm}',
+        r'\def\centerItaLogoOpacity{0.2}',
         r'',
         r'% Embedded dynamic content page (without titlepage wrapper for background)',
         r'\makeatletter',
@@ -96,6 +100,11 @@ def create_latex_file(footer_logo='images/airdata_logo.png',
         r'       at (current page.north east)',
         r'       {\includegraphics[width=\institutionLogoWidth]{\pageInstitutionLogo}};',
         r'',
+        r'  % --- Center: Large ITA logo ------------------------------',
+        r'  \node[anchor=center, opacity=\centerItaLogoOpacity]',
+        r'       at (current page.center)',
+        r'       {\includegraphics[width=\centerItaLogoWidth]{\pageInstitutionLogo}};',
+        r'',
         r'  % --- Footer: logo bottom-left -----------------------------',
         r'  \node[anchor=south west,',
         r'        xshift=\footerSideMargin, yshift=\footerBottomOffset]',
@@ -106,18 +115,18 @@ def create_latex_file(footer_logo='images/airdata_logo.png',
         r'\end{document}',
     ]
     
-    with open('background_temp.tex', 'w', encoding='utf-8', newline='\n') as f:
+    with open('background_pretex_temp.tex', 'w', encoding='utf-8', newline='\n') as f:
         f.write('\n'.join(lines))
 
 def compile_pdf():
     """Compile the LaTeX file to PDF"""
-    cmd = ['xelatex', '-output-directory=build', '-interaction=nonstopmode', '-halt-on-error', 'background_temp.tex']
+    cmd = ['xelatex', '-output-directory=build', '-interaction=nonstopmode', '-halt-on-error', 'background_pretex_temp.tex']
     result = subprocess.run(cmd, capture_output=True, text=True)
     return result.returncode == 0
 
 def convert_to_png():
     """Convert PDF to PNG using ImageMagick"""
-    if not os.path.exists('build/background_temp.pdf'):
+    if not os.path.exists('build/background_pretex_temp.pdf'):
         print("❌ PDF file not found")
         return False
     
@@ -125,21 +134,21 @@ def convert_to_png():
     try:
         subprocess.run(['convert', '--version'], capture_output=True, check=True)
     except (subprocess.CalledProcessError, FileNotFoundError):
-        print("⚠️  ImageMagick not found. PDF generated: build/background_temp.pdf")
+        print("⚠️  ImageMagick not found. PDF generated: build/background_pretex_temp.pdf")
         print("   Install ImageMagick to convert to PNG: sudo apt-get install imagemagick")
         return False
     
-    cmd = ['convert', '-density', '300', 'build/background_temp.pdf', '-quality', '90', 'capas/background.png']
+    cmd = ['convert', '-density', '300', 'build/background_pretex_temp.pdf', '-quality', '90', 'capas/background_pretex.png']
     result = subprocess.run(cmd, capture_output=True, text=True)
     return result.returncode == 0
 
 def main():
-    print("📄 Generating background PNG from dynamic content page")
+    print("📄 Generating pretextual background PNG with large center ITA logo")
     
     # Parse command line arguments
-    footer_logo = sys.argv[1] if len(sys.argv) > 1 else 'images/airdata_logo.png'
+    footer_logo = sys.argv[1] if len(sys.argv) > 1 else 'images/drone_logo.png'
     product_text = sys.argv[2] if len(sys.argv) > 2 else 'Produto 1'
-    meta_text = sys.argv[3] if len(sys.argv) > 3 else 'Meta 1 | Etapa 6: Airdata'
+    meta_text = sys.argv[3] if len(sys.argv) > 3 else 'Meta 2 | Etapa 6: Tarifação'
     
     # Create directories
     os.makedirs('build', exist_ok=True)
@@ -154,16 +163,16 @@ def main():
         
         # Convert to PNG
         if convert_to_png():
-            print("✅ Background PNG generated: capas/background.png")
+            print("✅ Pretextual background PNG generated: capas/background_pretex.png")
         else:
-            print("⚠️  PNG conversion failed, but PDF available: build/background_temp.pdf")
+            print("⚠️  PNG conversion failed, but PDF available: build/background_pretex_temp.pdf")
     else:
-        print("❌ LaTeX compilation failed! Check build/background_temp.log for details")
+        print("❌ LaTeX compilation failed! Check build/background_pretex_temp.log for details")
         return 1
     
     # Clean up
-    if os.path.exists('background_temp.tex'):
-        os.remove('background_temp.tex')
+    if os.path.exists('background_pretex_temp.tex'):
+        os.remove('background_pretex_temp.tex')
     
     return 0
 

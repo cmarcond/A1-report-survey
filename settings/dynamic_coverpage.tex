@@ -2,20 +2,84 @@
 % ===============================================================
 % DYNAMIC COVER PAGE GENERATOR
 % ===============================================================
-% This file generates a cover page using a product-specific
-% configuration file from the settings directory.
+% This file generates a cover page with configurable parameters.
+% To switch between different covers, modify the parameters below.
 %
-% USAGE: \makeDynamicCover{product_name}
-% e.g., \makeDynamicCover{product1} or \makeDynamicCover{product2}
+% USAGE: \makeDynamicCover
 % ===============================================================
+
+% ===============================================================
+% COVER CONFIGURATION PARAMETERS
+% ===============================================================
+% Edit these values to customize your cover page:
+
+% ---------------------------------------------------------------
+% PROJECT INFORMATION
+% ---------------------------------------------------------------
+\def\projectMeta{1}
+\def\projectEtapa{6}
+\def\projectEtapaTitle{Airdata}
+\def\projectTitle{Relatório de Análise e Mapeamento das Bases de Dados}
+\def\productNumber{I}
+
+% ---------------------------------------------------------------
+% DATE INFORMATION
+% ---------------------------------------------------------------
+\def\projectMonth{Agosto}
+\def\projectYear{2025}
+
+% ---------------------------------------------------------------
+% BRANDING & LOGOS
+% ---------------------------------------------------------------
+\def\institutionName{ITA}
+\def\institutionLogo{images/logoITA.png}
+\def\projectLogo{images/airdata_logo.png}
+
+% ---------------------------------------------------------------
+% COLORS
+% ---------------------------------------------------------------
+% Airdata theme (current):
+\definecolor{darkBlueBg}{RGB}{20,25,38}
+\definecolor{mediumBlueFooter}{RGB}{58,118,173}
+\def\coverBgColor{darkBlueBg}
+\def\coverFooterColor{mediumBlueFooter}
+\def\headerTextColor{white}
+\def\footerTextColor{white}
+
+% Tarifação theme (uncomment to use):
+% \definecolor{parchmentBg}{RGB}{241,230,210}
+% \def\coverBgColor{parchmentBg}
+% \def\coverFooterColor{black!85}
+% \def\headerTextColor{black}
+% \def\footerTextColor{white}
+
+% ---------------------------------------------------------------
+% FONT SIZES (in points)
+% ---------------------------------------------------------------
+\def\institutionFontSize{36}
+\def\metaEtapaFontSize{24}
+\def\titleFontSize{18}
+\def\productFontSize{22}
+\def\dateFontSize{20}
+
+% ---------------------------------------------------------------
+% LAYOUT ADJUSTMENTS
+% ---------------------------------------------------------------
+\def\institutionLogoWidth{7cm}
+\def\projectLogoWidth{15cm}
+\def\footerHeight{3.2cm}
+
+% --- Positioning Offsets ---
+\def\logoTopOffset{1.2cm}
+\def\logoSideOffset{1.5cm}
+\def\footerTextOffset{0.8cm}
+\def\projectLogoYShift{-1cm}
+\def\dateOffsetY{3.7cm}
 
 % ---------------------------------------------------------------
 % Cover Page Generation Command
 % ---------------------------------------------------------------
-\newcommand\makeDynamicCover[1]{%
-  % Load the configuration file for the specified product.
-  % It expects a file named 'cover_config_#1.tex' in the 'settings' directory.
-  \input{settings/cover_config_#1.tex}
+\newcommand\makeDynamicCover{%
 
   \ClearShipoutPictureBG
 
@@ -42,7 +106,7 @@
         };
 
       % ------------ Project Logo (center) -----------------------
-      \node[anchor=center, yshift=\projectLogoYShift] (mainLogo)
+      \node[anchor=center, xshift=-3cm, yshift=\projectLogoYShift] (mainLogo)
         at (current page.center)
         {\includegraphics[width=\projectLogoWidth]{\projectLogo}};
 

@@ -97,16 +97,20 @@ auto-setup:
 
 # Project colors are now configured in includes/asset_config.json
 
+# Color resolution rule
+settings/setcolor_generated.tex: includes/asset_config.json scripts/resolve_project_colors.py
+	@python3 scripts/resolve_project_colors.py
+
 # Asset file rules with proper dependencies
-capas/cover.png: $(COVER_SCRIPT) includes/asset_config.json
+capas/cover.png: $(COVER_SCRIPT) includes/asset_config.json settings/setcolor_generated.tex
 	@echo "Generating cover.png..."
 	@python3 $(COVER_SCRIPT)
 
-capas/background.png: $(BACKGROUND_SCRIPT) includes/asset_config.json
+capas/background.png: $(BACKGROUND_SCRIPT) includes/asset_config.json settings/setcolor_generated.tex
 	@echo "Generating background.png..."
 	@python3 $(BACKGROUND_SCRIPT)
 
-capas/background_pretex.png: $(BACKGROUND_PRETEX_SCRIPT) includes/asset_config.json
+capas/background_pretex.png: $(BACKGROUND_PRETEX_SCRIPT) includes/asset_config.json settings/setcolor_generated.tex
 	@echo "Generating background_pretex.png..."
 	@python3 $(BACKGROUND_PRETEX_SCRIPT)
 

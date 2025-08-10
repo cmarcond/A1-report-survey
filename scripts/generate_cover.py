@@ -63,7 +63,11 @@ def create_latex_file(params, config):
         r'\usepackage{tikz}',
         r'\usepackage{fontspec}',
         r'\usepackage{graphicx}',
+        r'\usepackage{xcolor}',
         r'\usetikzlibrary{calc}',
+        r'',
+        r'% Load semantic colors',
+        r'\input{settings/setcolor_generated.tex}',
         r'',
         r'% Font setup',
         r'\newfontfamily\CheltenhamFont[',
@@ -74,7 +78,7 @@ def create_latex_file(params, config):
         r'',
         r'% Color definitions',
         rf'\definecolor{{coverBg}}{{RGB}}{{{colors["bg_color"]}}}',
-        rf'\definecolor{{coverFooter}}{{RGB}}{{{colors["footer_color"]}}}',
+        r'% Note: coverFooter now uses semantic projectMainColor from setcolor_generated.tex',
         r'',
         r'% Parameters',
         rf'\def\institutionName{{ITA}}',
@@ -141,11 +145,11 @@ def create_latex_file(params, config):
         r'  % Footer bar',
     ]
     
-    # Add footer with opacity if needed (for Tarifação theme)
+    # Add footer using semantic project color (follows documentation: caps/cap08.tex)
     if 'footer_opacity' in colors:
-        lines.append(rf'  \fill[coverFooter, opacity={colors["footer_opacity"]}] (current page.south west) rectangle ++(\paperwidth, \footerHeight);')
+        lines.append(rf'  \fill[projectMainColor, opacity={colors["footer_opacity"]}] (current page.south west) rectangle ++(\paperwidth, \footerHeight);')
     else:
-        lines.append(r'  \fill[coverFooter] (current page.south west) rectangle ++(\paperwidth, \footerHeight);')
+        lines.append(r'  \fill[projectMainColor] (current page.south west) rectangle ++(\paperwidth, \footerHeight);')
     
     lines.extend([
         r'',

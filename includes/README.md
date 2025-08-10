@@ -62,8 +62,8 @@ Analista de Dados\\
 ### Changing product information
 Edit `product_description.tex`:
 ```latex
-\textcolor{airdataBlue}{\textbf{\LARGE Produto 2}}\\
-\textcolor{airdataBlue}{Meta 1 \textbar{} Etapa 3: Análise de Dados}\\
+\textcolor{projectMainColor}{\textbf{\LARGE Produto 2}}\\
+\textcolor{projectMainColor}{Meta 1 \textbar{} Etapa 3: Análise de Dados}\\
 \vspace*{5cm}	
 Sistema de Monitoramento Aeroportuário
 ```

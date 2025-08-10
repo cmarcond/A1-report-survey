@@ -1,15 +1,17 @@
 {
   "project": {
-    "title": "Relatório de Análise e Mapeamento das Bases de Dados",
-    "meta_text": "Meta 2 | Etapa 2: Sistemas Distribuidos",
-    "product_text": "Produto 1",
+    "title": "Estudo de Sistemas Distribuídos e Algoritmos de Consenso",
+    "meta": 2,
+    "etapa": 6,
+    "meta_text": "Meta 2 | Etapa 2: CloudSky",
+    "product_text": "Atividade 1",
     "month": "Agosto",
     "year": "2025"
   },
   "assets": {
     "images": {
       "institution_logo": "images/logoITA.png",
-      "project_logo": "images/airdata_logo.png",
+      "project_logo": "images/cloudsky_logo.png",
       "background_logo": "images/logoAirdata.png",
       "ita_traco_logo": "images/ita_traco.png"
     }
@@ -51,6 +53,39 @@
       "footer_logo_opacity": "0.5",
       "header_offset": "1.5cm",
       "footer_offset": "1.5cm"
+    }
+  },
+  "colors": {
+    "project_main": "auto",
+    "coordination": "auto",
+    "institution": "2f84c6",
+    "accent": "auto",
+    "palette": {
+      "meta1": {
+        "coordination": "272a6a",
+        "etapa1": "283880",
+        "etapa2": "204196",
+        "etapa3": "2451a4",
+        "etapa4": "2b61ae",
+        "etapa5": "2d72ba",
+        "etapa6": "2f84c6"
+      },
+      "meta2": {
+        "coordination": "388fcd",
+        "etapa1": "388fcd",
+        "etapa2": "6597ca",
+        "etapa3": "6392bd",
+        "etapa4": "618eb1",
+        "etapa5": "5e89a7",
+        "etapa6": "5c859c",
+        "etapa7": "4d7d94",
+        "etapa8": "3f738b",
+        "etapa9": "306983",
+        "etapa10": "215f7b"
+      }
+    },
+    "special": {
+      "cream_bg": "250,245,225"
     }
   }
 }

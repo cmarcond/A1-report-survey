@@ -1,10 +1,12 @@
 #!/bin/bash
 # update_project_color.sh - Update the project color based on configuration
 
-# Read Meta and Etapa from LaTeX config or use command line parameters
-if [ -f "settings/cover_config.tex" ]; then
-    PROJECT_META=$(grep "\\\\def\\\\projectMeta{" settings/cover_config.tex | sed 's/.*{\([0-9]*\)}.*/\1/' 2>/dev/null || echo "2")
-    PROJECT_ETAPA=$(grep "\\\\def\\\\projectEtapa{" settings/cover_config.tex | sed 's/.*{\([0-9]*\)}.*/\1/' 2>/dev/null || echo "2")
+# Read Meta and Etapa from JSON config or use command line parameters
+if [ -f "includes/asset_config.json" ]; then
+    # Extract meta and etapa numbers from meta_text in JSON
+    META_TEXT=$(grep '"meta_text"' includes/asset_config.json | sed 's/.*"meta_text": *"\([^"]*\)".*/\1/')
+    PROJECT_META=$(echo "$META_TEXT" | sed 's/.*Meta \([0-9]*\).*/\1/' 2>/dev/null || echo "2")
+    PROJECT_ETAPA=$(echo "$META_TEXT" | sed 's/.*Etapa \([0-9]*\).*/\1/' 2>/dev/null || echo "2")
 else
     PROJECT_META="${1:-2}"
     PROJECT_ETAPA="${2:-2}"

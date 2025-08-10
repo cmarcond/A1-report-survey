@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<title>CloudSky – Logos (SVG)</title>
+<style>
+  :root{--primary:#2AA1FF;--accent:#7B61FF;--ink:#0F172A;}
+  body{font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial;line-height:1.4;margin:24px;background:#fff;color:#111}
+  .grid{display:grid;grid-template-columns:1fr;gap:24px}
+  .panel{border:1px solid #e5e7eb;border-radius:14px;overflow:hidden}
+  .bar{padding:10px 14px;font-weight:600;background:#f8fafc}
+  .preview{display:flex;gap:24px;padding:24px;align-items:center;justify-content:center;flex-wrap:wrap}
+  .checker{background-image:linear-gradient(45deg,#eee 25%,transparent 25%),linear-gradient(-45deg,#eee 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#eee 75%),linear-gradient(-45deg,transparent 75%,#eee 75%);
+           background-size:16px 16px;background-position:0 0,0 8px,8px -8px,-8px 0px;padding:24px;border-radius:12px}
+  .dark{background:#0b1020}
+  details{padding:0 16px 16px}
+  summary{cursor:pointer;margin:0 0 8px;font-weight:600}
+  code, pre{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px}
+  svg{display:block;max-width:100%}
+  .cap{font-size:12px;color:#64748b;text-align:center;margin-top:8px}
+</style>
+</head>
+<body>
+  <h1>CloudSky – Logos (SVG)</h1>
+  <p class="cap">Pré-visualizações com fundo xadrez (transparente). Versões light/dark abaixo. Baixe salvando o SVG via clique direito ou copie o código em “SVG source”.</p>
+
+  <div class="grid">
+    <!-- LOGO A: CAPA / WORDMARK -->
+    <div class="panel">
+      <div class="bar">Logo A — Capa (wordmark + símbolo)</div>
+      <div class="preview">
+        <div class="checker">
+          <!-- WORDMARK SVG (light) -->
+          <svg id="logoA" viewBox="0 0 1200 300" xmlns="http://www.w3.org/2000/svg" aria-label="CloudSky Wordmark">
+            <defs>
+              <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="var(--primary)"/>
+                <stop offset="100%" stop-color="var(--accent)"/>
+              </linearGradient>
+              <style>
+                .mark{fill:none;stroke:url(#g1);stroke-width:16;stroke-linecap:round;stroke-linejoin:round}
+                .node{fill:url(#g1)}
+                .type{fill:var(--ink);font-weight:800;letter-spacing:2px;font-size:120px}
+                .tag{fill:#475569;font-weight:600;letter-spacing:2px;font-size:28px}
+              </style>
+            </defs>
+            <!-- Hex símbolo (blockchain) -->
+            <path class="mark" d="M120 60 210 112 210 208 120 260 30 208 30 112Z"/>
+            <!-- Orbit/UTM path -->
+            <path class="mark" d="M24 150 C 160 40, 380 40, 520 150"/>
+            <circle class="node" cx="120" cy="60" r="10"/>
+            <circle class="node" cx="210" cy="208" r="10"/>
+            <circle class="node" cx="300" cy="120" r="9"/>
+            <!-- Pequeno "drone" como triângulo -->
+            <path class="node" d="M520 150 l -22 -8 l 8 22 Z"/>
+            <!-- Wordmark -->
+            <g transform="translate(560,130)">
+              <text class="type" y="0">CLOUDSKY</text>
+              <text class="tag" y="60">Distributed Data for UTM</text>
+            </g>
+          </svg>
+          <div class="cap">Fundo claro</div>
+        </div>
+        <div class="checker dark">
+          <!-- WORDMARK SVG (dark) -->
+          <svg viewBox="0 0 1200 300" xmlns="http://www.w3.org/2000/svg" aria-label="CloudSky Wordmark Dark">
+            <defs>
+              <linearGradient id="g1d" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#7AE7FF"/>
+                <stop offset="100%" stop-color="#7B61FF"/>
+              </linearGradient>
+              <style>
+                .mark{fill:none;stroke:url(#g1d);stroke-width:16;stroke-linecap:round;stroke-linejoin:round}
+                .node{fill:url(#g1d)}
+                .type{fill:#e5e7eb;font-weight:800;letter-spacing:2px;font-size:120px}
+                .tag{fill:#94a3b8;font-weight:600;letter-spacing:2px;font-size:28px}
+              </style>
+            </defs>
+            <path class="mark" d="M120 60 210 112 210 208 120 260 30 208 30 112Z"/>
+            <path class="mark" d="M24 150 C 160 40, 380 40, 520 150"/>
+            <circle class="node" cx="120" cy="60" r="10"/>
+            <circle class="node" cx="210" cy="208" r="10"/>
+            <circle class="node" cx="300" cy="120" r="9"/>
+            <path class="node" d="M520 150 l -22 -8 l 8 22 Z"/>
+            <g transform="translate(560,130)">
+              <text class="type" y="0">CLOUDSKY</text>
+              <text class="tag" y="60">Distributed Data for UTM</text>
+            </g>
+          </svg>
+          <div class="cap" style="color:#cbd5e1">Fundo escuro</div>
+        </div>
+      </div>
+      <details>
+        <summary>SVG source (Logo A)</summary>
+        <pre><code>&lt;svg viewBox=&quot;0 0 1200 300&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;
+  &lt;defs&gt;
+    &lt;linearGradient id=&quot;g1&quot; x1=&quot;0&quot; y1=&quot;0&quot; x2=&quot;1&quot; y2=&quot;1&quot;&gt;
+      &lt;stop offset=&quot;0%&quot; stop-color=&quot;#2AA1FF&quot;/&gt;
+      &lt;stop offset=&quot;100%&quot; stop-color=&quot;#7B61FF&quot;/&gt;
+    &lt;/linearGradient&gt;
+    &lt;style&gt;
+      .mark{fill:none;stroke:url(#g1);stroke-width:16;stroke-linecap:round;stroke-linejoin:round}
+      .node{fill:url(#g1)}
+      .type{fill:#0F172A;font-weight:800;letter-spacing:2px;font-size:120px}
+      .tag{fill:#475569;font-weight:600;letter-spacing:2px;font-size:28px}
+    &lt;/style&gt;
+  &lt;/defs&gt;
+  &lt;path class=&quot;mark&quot; d=&quot;M120 60 210 112 210 208 120 260 30 208 30 112Z&quot;/&gt;
+  &lt;path class=&quot;mark&quot; d=&quot;M24 150 C 160 40, 380 40, 520 150&quot;/&gt;
+  &lt;circle class=&quot;node&quot; cx=&quot;120&quot; cy=&quot;60&quot; r=&quot;10&quot;/&gt;
+  &lt;circle class=&quot;node&quot; cx=&quot;210&quot; cy=&quot;208&quot; r=&quot;10&quot;/&gt;
+  &lt;circle class=&quot;node&quot; cx=&quot;300&quot; cy=&quot;120&quot; r=&quot;9&quot;/&gt;
+  &lt;path class=&quot;node&quot; d=&quot;M520 150 l -22 -8 l 8 22 Z&quot;/&gt;
+  &lt;g transform=&quot;translate(560,130)&quot;&gt;
+    &lt;text class=&quot;type&quot; y=&quot;0&quot;&gt;CLOUDSKY&lt;/text&gt;
+    &lt;text class=&quot;tag&quot; y=&quot;60&quot;&gt;Distributed Data for UTM&lt;/text&gt;
+  &lt;/g&gt;
+&lt;/svg&gt;
+</code></pre>
+      </details>
+    </div>
+
+    <!-- LOGO B: RODAPÉ / BUG -->
+    <div class="panel">
+      <div class="bar">Logo B — Rodapé (símbolo compacto)</div>
+      <div class="preview">
+        <div class="checker">
+          <!-- BUG SVG (light) -->
+          <svg id="logoB" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" aria-label="CloudSky Bug">
+            <defs>
+              <linearGradient id="g2" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#2AA1FF"/>
+                <stop offset="100%" stop-color="#7B61FF"/>
+              </linearGradient>
+              <style>
+                .hex{fill:none;stroke:url(#g2);stroke-width:16;stroke-linejoin:round}
+                .orbit{fill:none;stroke:url(#g2);stroke-width:12;stroke-linecap:round}
+                .n{fill:url(#g2)}
+              </style>
+            </defs>
+            <path class="hex" d="M128 20 216 72 216 184 128 236 40 184 40 72Z"/>
+            <path class="orbit" d="M30 132 C 96 60, 160 60, 226 132"/>
+            <circle class="n" cx="86" cy="74" r="9"/>
+            <circle class="n" cx="170" cy="192" r="9"/>
+            <circle class="n" cx="206" cy="132" r="7"/>
+          </svg>
+          <div class="cap">Fundo claro</div>
+        </div>
+        <div class="checker dark">
+          <!-- BUG SVG (dark) -->
+          <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" aria-label="CloudSky Bug Dark">
+            <defs>
+              <linearGradient id="g2d" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#7AE7FF"/>
+                <stop offset="100%" stop-color="#7B61FF"/>
+              </linearGradient>
+              <style>
+                .hex{fill:none;stroke:url(#g2d);stroke-width:16;stroke-linejoin:round}
+                .orbit{fill:none;stroke:url(#g2d);stroke-width:12;stroke-linecap:round}
+                .n{fill:url(#g2d)}
+              </style>
+            </defs>
+            <path class="hex" d="M128 20 216 72 216 184 128 236 40 184 40 72Z"/>
+            <path class="orbit" d="M30 132 C 96 60, 160 60, 226 132"/>
+            <circle class="n" cx="86" cy="74" r="9"/>
+            <circle class="n" cx="170" cy="192" r="9"/>
+            <circle class="n" cx="206" cy="132" r="7"/>
+          </svg>
+          <div class="cap" style="color:#cbd5e1">Fundo escuro</div>
+        </div>
+      </div>
+      <details>
+        <summary>SVG source (Logo B)</summary>
+        <pre><code>&lt;svg viewBox=&quot;0 0 256 256&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;
+  &lt;defs&gt;
+    &lt;linearGradient id=&quot;g2&quot; x1=&quot;0&quot; y1=&quot;0&quot; x2=&quot;1&quot; y2=&quot;1&quot;&gt;
+      &lt;stop offset=&quot;0%&quot; stop-color=&quot;#2AA1FF&quot;/&gt;
+      &lt;stop offset=&quot;100%&quot; stop-color=&quot;#7B61FF&quot;/&gt;
+    &lt;/linearGradient&gt;
+    &lt;style&gt;
+      .hex{fill:none;stroke:url(#g2);stroke-width:16;stroke-linejoin:round}
+      .orbit{fill:none;stroke:url(#g2);stroke-width:12;stroke-linecap:round}
+      .n{fill:url(#g2)}
+    &lt;/style&gt;
+  &lt;/defs&gt;
+  &lt;path class=&quot;hex&quot; d=&quot;M128 20 216 72 216 184 128 236 40 184 40 72Z&quot;/&gt;
+  &lt;path class=&quot;orbit&quot; d=&quot;M30 132 C 96 60, 160 60, 226 132&quot;/&gt;
+  &lt;circle class=&quot;n&quot; cx=&quot;86&quot; cy=&quot;74&quot; r=&quot;9&quot;/&gt;
+  &lt;circle class=&quot;n&quot; cx=&quot;170&quot; cy=&quot;192&quot; r=&quot;9&quot;/&gt;
+  &lt;circle class=&quot;n&quot; cx=&quot;206&quot; cy=&quot;132&quot; r=&quot;7&quot;/&gt;
+&lt;/svg&gt;
+</code></pre>
+      </details>
+    </div>
+  </div>
+
+  <p class="cap">Cores sugeridas: primário <strong>#2AA1FF</strong> → acento <strong>#7B61FF</strong>. Versões monocromáticas possíveis usando fill/stroke em #111 ou #fff.</p>
+</body>
+</html>
+

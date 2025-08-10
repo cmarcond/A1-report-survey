@@ -13,9 +13,8 @@
 \input{settings/setlayout.tex}       % margens, espaçamentos
 \input{settings/fonts.tex}           % fonte principal (Cheltenham)
 \input{settings/settitles.tex}       % estilo de títulos
-%\input{settings/dynamic_coverpage.tex} % original dynamic cover (kept as backup)
-\input{settings/coverpage_png.tex}      % PNG cover loader
-\input{settings/dynamic_contentpage.tex} % dynamic content generation
+%\input{settings/dynamic_coverpage.tex} % original LaTeX-based cover (kept for reference)
+\input{settings/coverpage_png.tex}      % PNG cover loader (active)
 \input{settings/background.tex}      % marca d’água
 \input{settings/pretextualpages.tex} % sumário, listas etc.
 
@@ -30,8 +29,8 @@
 	% =======================================================================
 	% === COVER PAGE GENERATION =============================================
 	% =======================================================================
-	% To customize the cover, edit the parameters in:
-	% settings/dynamic_coverpage.tex
+	% Cover is generated as PNG by: make generate-cover
+	% To customize, edit variables in Makefile
 	% -----------------------------------------------------------------------
 	\makeDynamicCover
 	% =======================================================================

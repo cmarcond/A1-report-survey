@@ -7,6 +7,7 @@ import os
 import subprocess
 import sys
 import re
+import json
 
 def parse_meta_text(meta_text):
     """Parse meta text to extract Meta number, Etapa number and title"""
@@ -31,32 +32,30 @@ def parse_product_text(product_text):
         return roman[num-1] if num <= 5 else str(num)
     return "I"
 
-def get_theme_colors(etapa_num):
-    """Get theme colors based on meta number"""
-    if etapa_num == "2":
-        # Airdata theme (dark blue)
-        return {
-            'bg_color': '20,25,38',
-            'footer_color': '58,118,173',
-            'header_text': 'white',
-            'footer_text': 'white'
-        }
-    else:
-        # Tarifação theme (parchment)
-        return {
-            'bg_color': '241,230,210',
-            'footer_color': '0,0,0',  # black
-            'footer_opacity': '0.85',
-            'header_text': 'black',
-            'footer_text': 'white'
-        }
+def load_config():
+    """Load configuration from JSON file"""
+    # Get absolute path to project root (parent of scripts directory)
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.dirname(script_dir)
+    config_path = os.path.join(project_root, 'includes', 'asset_config.json')
+    
+    if not os.path.exists(config_path):
+        print(f"❌ Configuration file not found: {config_path}")
+        sys.exit(1)
+    
+    with open(config_path, 'r', encoding='utf-8') as f:
+        return json.load(f)
 
-def create_latex_file(params):
+def get_theme_colors(etapa_num, config):
+    """Get theme colors from config"""
+    return config["theme"]
+
+def create_latex_file(params, config):
     """Create the temporary LaTeX file for cover page"""
     # Parse parameters
     meta_num, etapa_num, etapa_title = parse_meta_text(params['meta_text'])
     product_num = parse_product_text(params['product_text'])
-    colors = get_theme_colors(etapa_num)
+    colors = get_theme_colors(etapa_num, config)
     
     # Build the content line by line
     lines = [
@@ -162,12 +161,12 @@ def create_latex_file(params):
         r'\end{document}',
     ])
     
-    with open('cover_temp.tex', 'w', encoding='utf-8', newline='\n') as f:
+    with open('build/cover_temp.tex', 'w', encoding='utf-8', newline='\n') as f:
         f.write('\n'.join(lines))
 
 def compile_pdf():
     """Compile the LaTeX file to PDF"""
-    cmd = ['xelatex', '-output-directory=build', '-interaction=nonstopmode', '-halt-on-error', 'cover_temp.tex']
+    cmd = ['xelatex', '-output-directory=build', '-interaction=nonstopmode', '-halt-on-error', 'build/cover_temp.tex']
     result = subprocess.run(cmd, capture_output=True, text=True)
     return result.returncode == 0
 
@@ -192,19 +191,33 @@ def convert_to_png():
 def main():
     print("📄 Generating cover page PNG")
     
-    # Parse command line arguments
-    if len(sys.argv) < 8:
-        print("Usage: generate_cover.py <project_logo> <product_text> <meta_text> <title> <month> <year> <institution_logo> [cover_project_logo]")
-        return 1
+    # Load configuration
+    config = load_config()
+    
+    # Get absolute path to project root for image paths
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.dirname(script_dir)
+    
+    # Use JSON configuration with absolute paths
+    project_logo_path = os.path.join(project_root, config["assets"]["images"]["project_logo"])
+    institution_logo_path = os.path.join(project_root, config["assets"]["images"]["institution_logo"])
+    
+    # Verify required image files exist
+    if not os.path.exists(project_logo_path):
+        print(f"❌ Project logo not found: {project_logo_path}")
+        sys.exit(1)
+    if not os.path.exists(institution_logo_path):
+        print(f"❌ Institution logo not found: {institution_logo_path}")
+        sys.exit(1)
     
     params = {
-        'project_logo': sys.argv[8] if len(sys.argv) > 8 else sys.argv[1],  # Use separate param if provided, else use footer logo
-        'product_text': sys.argv[2],
-        'meta_text': sys.argv[3],
-        'title': sys.argv[4],
-        'month': sys.argv[5],
-        'year': sys.argv[6],
-        'institution_logo': sys.argv[7]
+        'project_logo': project_logo_path,
+        'product_text': config["project"]["product_text"],
+        'meta_text': config["project"]["meta_text"],
+        'title': config["project"]["title"],
+        'month': config["project"]["month"],
+        'year': config["project"]["year"],
+        'institution_logo': institution_logo_path
     }
     
     # Create directories
@@ -212,7 +225,7 @@ def main():
     os.makedirs('capas', exist_ok=True)
     
     # Create LaTeX file
-    create_latex_file(params)
+    create_latex_file(params, config)
     
     # Compile to PDF
     if compile_pdf():
@@ -227,9 +240,6 @@ def main():
         print("❌ LaTeX compilation failed! Check build/cover_temp.log for details")
         return 1
     
-    # Clean up
-    if os.path.exists('cover_temp.tex'):
-        os.remove('cover_temp.tex')
     
     return 0
 

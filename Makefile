@@ -29,21 +29,7 @@ LATEX_FLAGS = -interaction=nonstopmode -halt-on-error -output-directory=$(BUILD_
 # PROJECT CONFIGURATION
 # ========================================
 
-# Background generation configuration
-FOOTER_LOGO = images/logoAirdata.png
-PRODUCT_TEXT = Produto 1
-META_TEXT = Meta 2 | Etapa 2: Sistemas Distribuidos
-
-# Cover page configuration  
-COVER_TITLE = Relatório de Análise e Mapeamento das Bases de Dados
-COVER_MONTH = Agosto
-COVER_YEAR = 2025
-COVER_INSTITUTION_LOGO = images/logoITA.png
-COVER_PROJECT_LOGO = images/airdata_logo.png
-# Configure your project Meta and Etapa here
-# This will automatically use the correct official color
-PROJECT_META = 2
-PROJECT_ETAPA = 2
+# Asset generation now uses includes/asset_config.json
 
 # Source files and dependencies
 TEX_FILES = $(wildcard *.tex) \
@@ -57,6 +43,16 @@ IMG_FILES = $(wildcard images/*.png) \
             $(wildcard images/*.jpg) \
             $(wildcard images/*.pdf) \
             $(wildcard images/*.eps)
+
+# Generated assets that affect compilation
+ASSET_FILES = capas/cover.png \
+              capas/background.png \
+              capas/background_pretex.png
+
+# Scripts that generate assets
+COVER_SCRIPT = scripts/generate_cover.py
+BACKGROUND_SCRIPT = scripts/generate_background.py
+BACKGROUND_PRETEX_SCRIPT = scripts/generate_background_pretex.py
 
 # Output files
 PDF = $(MAIN).pdf
@@ -87,7 +83,7 @@ TEMP_FILES = $(BUILD_DIR)/*.aux $(BUILD_DIR)/*.log $(BUILD_DIR)/*.bbl $(BUILD_DI
 
 # Default target - automatically installs dependencies if needed
 .PHONY: all
-all: auto-setup update-project-color generate-assets $(PDF)
+all: auto-setup $(ASSET_FILES) $(PDF)
 
 # Automatic setup - installs missing dependencies without asking
 .PHONY: auto-setup
@@ -99,45 +95,54 @@ auto-setup:
 		$(MAKE) install-deps-auto; \
 	fi
 
-# Update project color based on configuration
-.PHONY: update-project-color
-update-project-color:
-	@echo "🎨 Setting project color based on cover configuration"
-	@mkdir -p scripts
-	@bash scripts/update_project_color.sh
+# Project colors are now configured in includes/asset_config.json
 
-# Generate background PNG from dynamic content page
-.PHONY: generate-background
-generate-background:
-	@python3 scripts/generate_background.py "$(FOOTER_LOGO)" "$(PRODUCT_TEXT)" "$(META_TEXT)"
+# Asset file rules with proper dependencies
+capas/cover.png: $(COVER_SCRIPT) includes/asset_config.json
+	@echo "Generating cover.png..."
+	@python3 $(COVER_SCRIPT)
 
-# Generate pretextual background PNG with large center ITA logo
-.PHONY: generate-background-pretex
-generate-background-pretex:
-	@python3 scripts/generate_background_pretex.py "$(FOOTER_LOGO)" "$(PRODUCT_TEXT)" "$(META_TEXT)"
+capas/background.png: $(BACKGROUND_SCRIPT) includes/asset_config.json
+	@echo "Generating background.png..."
+	@python3 $(BACKGROUND_SCRIPT)
 
-# Generate both backgrounds
-.PHONY: generate-backgrounds
-generate-backgrounds: generate-background generate-background-pretex
+capas/background_pretex.png: $(BACKGROUND_PRETEX_SCRIPT) includes/asset_config.json
+	@echo "Generating background_pretex.png..."
+	@python3 $(BACKGROUND_PRETEX_SCRIPT)
 
-# Generate cover page PNG
+# Convenience targets (kept for backward compatibility)
 .PHONY: generate-cover
-generate-cover:
-	@python3 scripts/generate_cover.py "$(FOOTER_LOGO)" "$(PRODUCT_TEXT)" "$(META_TEXT)" "$(COVER_TITLE)" "$(COVER_MONTH)" "$(COVER_YEAR)" "$(COVER_INSTITUTION_LOGO)" "$(COVER_PROJECT_LOGO)"
+generate-cover: capas/cover.png
 
-# Generate all assets (cover and backgrounds)
+.PHONY: generate-background
+generate-background: capas/background.png
+
+.PHONY: generate-background-pretex
+generate-background-pretex: capas/background_pretex.png
+
+.PHONY: generate-backgrounds
+generate-backgrounds: capas/background.png capas/background_pretex.png
+
 .PHONY: generate-assets
-generate-assets: generate-cover generate-backgrounds
+generate-assets: $(ASSET_FILES)
 
 
 # Main compilation rule
 $(PDF): $(TEX_FILES) $(IMG_FILES)
 	@echo "========================================="
-	@echo "Starting LaTeX compilation..."
+	@echo "Starting 3-phase LaTeX compilation..."
 	@echo "========================================="
 	
 	# Create build directory if it doesn't exist
 	@mkdir -p $(BUILD_DIR)
+	
+	# ========================================
+	# PHASE 1: Initial compilation for build artifacts
+	# ========================================
+	@echo ""
+	@echo "🔄 Phase 1: Building artifacts..."
+	@echo "Generating initial assets..."
+	@$(MAKE) -s generate-assets
 	
 	# First pass - generate aux files
 	@echo "[1/5] First LaTeX pass..."
@@ -169,21 +174,38 @@ $(PDF): $(TEX_FILES) $(IMG_FILES)
 	@$(LATEX) $(LATEX_FLAGS) $(MAIN).tex || \
 		(echo "❌ Second pass failed! Check $(LOG)" && exit 1)
 	
-	# Third pass - resolve cross-references
-	@echo "[5/5] Final LaTeX pass..."
+	# Third pass - resolve cross-references and create build artifacts
+	@echo "[5/5] Third LaTeX pass (building artifacts)..."
 	@$(LATEX) $(LATEX_FLAGS) $(MAIN).tex || \
-		(echo "❌ Final pass failed! Check $(LOG)" && exit 1)
+		(echo "❌ Third pass failed! Check $(LOG)" && exit 1)
+	
+	# ========================================
+	# PHASE 2: Asset regeneration with build information
+	# ========================================
+	@echo ""
+	@echo "🎨 Phase 2: Updating assets with build information..."
+	@$(MAKE) -s clean-assets
+	@$(MAKE) -s generate-assets
+	
+	# ========================================
+	# PHASE 3: Final compilation with updated assets
+	# ========================================
+	@echo ""
+	@echo "📄 Phase 3: Final compilation with updated assets..."
+	@$(LATEX) $(LATEX_FLAGS) $(MAIN).tex || \
+		(echo "❌ Final compilation failed! Check $(LOG)" && exit 1)
 	
 	# Copy PDF to root directory for easy access
 	@cp $(BUILD_PDF) $(PDF)
 	
+	@echo ""
 	@echo "========================================="
-	@echo "✅ Compilation complete: $(PDF)"
+	@echo "✅ 3-phase compilation complete: $(PDF)"
 	@echo "========================================="
 
 # Quick compilation (single pass, no bibliography/glossary update)
 .PHONY: quick
-quick: auto-setup generate-assets
+quick: auto-setup $(ASSET_FILES)
 	@echo "Quick compilation (single pass)..."
 	@mkdir -p $(BUILD_DIR)
 	@$(LATEX) $(LATEX_FLAGS) $(MAIN).tex || \
@@ -195,10 +217,6 @@ quick: auto-setup generate-assets
 .PHONY: force
 force: clean all
 
-# View the PDF
-.PHONY: view
-view: auto-setup $(PDF)
-	$(VIEWER) $(PDF) &
 
 # Continuous compilation (watches for changes)
 .PHONY: watch
@@ -209,16 +227,24 @@ watch:
 		sleep 2; \
 	done
 
-# Clean temporary files but keep PDF
+# Clean temporary files and PDF
 .PHONY: clean
-clean:
-	@echo "Cleaning temporary files..."
+clean: clean-assets
+	@echo "Cleaning temporary files and PDF..."
 	@rm -rf $(BUILD_DIR)
-	@echo "Build directory removed."
+	@rm -f $(PDF)
+	@echo "Build directory and PDF removed."
 
-# Clean everything including PDF
+# Clean generated assets
+.PHONY: clean-assets
+clean-assets:
+	@echo "Cleaning generated assets..."
+	@rm -f $(ASSET_FILES)
+	@echo "Asset files removed."
+
+# Clean everything including PDF and assets
 .PHONY: distclean
-distclean: clean
+distclean: clean clean-assets
 	@echo "Removing PDF output..."
 	@rm -f $(PDF)
 	@echo "All generated files removed."

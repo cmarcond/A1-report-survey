@@ -10,18 +10,19 @@ This is a professional LaTeX report template for the ITA-SAC (Instituto Tecnoló
 
 ### Building the Document
 ```bash
-make              # Full compilation with dependency installation, colors, and dynamic cover
-make quick        # Single-pass compilation (faster, for small changes)
+make              # Full compilation with asset generation and LaTeX compilation
+make quick        # Asset generation + single-pass LaTeX (faster, for small changes)
 make view         # Compile and open PDF
 make watch        # Auto-recompile on file changes
 make clean        # Remove all generated files
 ```
 
-### Dynamic Cover System
+### Dynamic Asset Generation
 ```bash
-make generate-cover    # Generate cover from JSON config only
-# Cover config: config/cover_config.json
-# Generated LaTeX params: settings/cover_params.tex
+make generate-assets      # Generate all assets (cover + backgrounds)
+make generate-cover       # Generate cover PNG only
+make generate-backgrounds # Generate background PNGs only
+make clean-assets         # Remove generated PNG assets
 ```
 
 ### Development Workflow
@@ -39,19 +40,28 @@ make watch        # In separate terminal
 ### Dependency Management
 ```bash
 make install-deps # Auto-installs TeX packages based on OS
+# Also requires: python3, imagemagick
 ```
 
 ## Architecture and Structure
 
 ### Core Architecture
-The project follows a **modular LaTeX architecture** with centralized configuration:
+The project follows a **hybrid Python/LaTeX architecture** with dynamic asset generation:
 
-1. **`main.tex`** - Entry point that orchestrates all components
-2. **`settings/`** - All formatting, styling, and configuration isolated here
-3. **`caps/`** - Chapter content files (cap00.tex through cap11.tex)
-4. **Content Flow**: main.tex → settings → caps → compiled PDF
+1. **`scripts/`** - Python scripts for dynamic PNG generation
+2. **`main.tex`** - Entry point that orchestrates all LaTeX components
+3. **`settings/`** - LaTeX formatting, styling, and configuration
+4. **`caps/`** - Chapter content files (cap00.tex through cap11.tex)
+5. **`capas/`** - Generated PNG assets (cover, backgrounds)
+6. **Build Flow**: Python scripts → PNG assets → LaTeX compilation → PDF
 
 ### Key Technical Decisions
+
+#### Asset Generation System
+- **Python 3 + ImageMagick** required for PNG generation
+- **LaTeX → PDF → PNG pipeline** for high-quality assets
+- **Dynamic configuration** via Makefile variables
+- **Automatic dependency tracking** - assets regenerate when config changes
 
 #### Compilation Engine
 - **Must use XeLaTeX or LuaLaTeX** (not pdfLaTeX) due to custom fonts
@@ -79,8 +89,16 @@ When adding new features or content:
 
 ### Build Process Internals
 
-The Makefile implements a sophisticated multi-pass compilation:
+The Makefile implements a sophisticated hybrid compilation:
 
+#### Asset Generation Phase
+```
+1. generate_cover.py → capas/cover.png
+2. generate_background.py → capas/background.png  
+3. generate_background_pretex.py → capas/background_pretex.png
+```
+
+#### LaTeX Compilation Phase
 ```
 1. XeLaTeX (1st pass) → Generate .aux files
 2. BibTeX → Process bibliography
@@ -88,6 +106,11 @@ The Makefile implements a sophisticated multi-pass compilation:
 4. XeLaTeX (2nd pass) → Resolve citations
 5. XeLaTeX (3rd pass) → Finalize references/TOC
 ```
+
+#### Key Dependencies
+- PNG assets must exist before LaTeX compilation
+- Asset regeneration triggered by Makefile variable changes
+- Full pipeline runs on both `make` and `make quick`
 
 ## Working with Content
 
@@ -107,12 +130,39 @@ The Makefile implements a sophisticated multi-pass compilation:
 3. Run `make` to update acronym list
 
 ### Customizing Appearance
+
+#### Makefile Configuration Variables
+```makefile
+# Background generation configuration
+FOOTER_LOGO = images/logoAirdata.png
+PRODUCT_TEXT = Produto 1
+META_TEXT = Meta 2 | Etapa 2: Sistemas Distribuidos
+
+# Cover page configuration  
+COVER_TITLE = Relatório de Análise e Mapeamento das Bases de Dados
+COVER_MONTH = Agosto
+COVER_YEAR = 2025
+COVER_INSTITUTION_LOGO = images/logoITA.png
+COVER_PROJECT_LOGO = images/airdata_logo.png
+```
+
+#### LaTeX Styling
 - **Colors**: Edit `settings/setcolor.tex` (institutional blue: #2f84c6)
-- **Layout**: Modify `settings/setlayout.tex` for margins/spacing
+- **Layout**: Modify `settings/setlayout.tex` for margins/spacing  
 - **Titles**: Adjust `settings/settitles.tex` for heading styles
-- **Cover**: Edit `settings/coverpage.tex` for cover page design
+- **PNG Display**: `settings/coverpage_png.tex` handles full-page PNG rendering
 
 ## Common Issues and Solutions
+
+### Asset Generation Issues
+- **Missing Python 3**: Install `python3` package
+- **Missing ImageMagick**: Install `imagemagick` package  
+- **PNG not generated**: Check `scripts/` permissions and paths
+- **Force regeneration**: `make clean-assets && make generate-assets`
+
+### "Runaway argument" Error
+- **Cause**: Corrupted auxiliary files from interrupted compilation
+- **Fix**: `make clean && make` to regenerate clean auxiliaries
 
 ### Bibliography Not Updating
 - Use `make clean && make` for full rebuild
@@ -157,11 +207,29 @@ make watch
 - Support Portuguese language with proper hyphenation
 
 ### File Patterns to Preserve
-- Don't modify `settings/*.tex` unless changing global formatting
-- Keep chapter files focused on content only
-- Maintain modular structure for reusability
+- **Content separation**: Keep chapters in `caps/`, configuration in `settings/`
+- **Asset generation**: Don't manually edit files in `capas/` (auto-generated)
+- **Python scripts**: Modify generation logic in `scripts/` directory
+- **Configuration**: Use Makefile variables, not hardcoded values
 
 ### Version Control Considerations
-- Generated files (*.aux, *.log, etc.) are git-ignored
-- Only commit source .tex files and assets
-- The main.pdf is currently tracked (consider if this should continue)
+- **Generated files**: `*.aux`, `*.log`, `capas/*.png` are git-ignored
+- **Source control**: Commit `.tex` files, Python scripts, and configuration
+- **Asset tracking**: PNG assets regenerate automatically, don't commit
+- **Build artifacts**: Use `make clean` before committing
+
+## Current System Status
+
+### Asset Generation System
+- **Status**: Fully implemented and functional
+- **Cover Generation**: `scripts/generate_cover.py` with theme auto-selection
+- **Background Generation**: `scripts/generate_background.py` and `scripts/generate_background_pretex.py`
+- **Integration**: Fully integrated into `make` pipeline
+- **Dependencies**: Python 3 + ImageMagick required
+
+### Recent Improvements
+- Moved from LaTeX-based to Python-based asset generation
+- Eliminated encoding issues with embedded configuration
+- Added automatic dependency tracking in Makefile
+- Implemented multi-commit Git workflow
+- Cleaned up obsolete configuration files

@@ -6,10 +6,26 @@ generate_background.py - Generate background PNG from dynamic content page
 import os
 import subprocess
 import sys
+import json
+
+def load_config():
+    """Load configuration from JSON file"""
+    # Get absolute path to project root (parent of scripts directory)
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.dirname(script_dir)
+    config_path = os.path.join(project_root, 'includes', 'asset_config.json')
+    
+    if not os.path.exists(config_path):
+        print(f"❌ Configuration file not found: {config_path}")
+        sys.exit(1)
+    
+    with open(config_path, 'r', encoding='utf-8') as f:
+        return json.load(f)
 
 def create_latex_file(footer_logo='images/airdata_logo.png', 
                       product_text='Produto 1',
-                      meta_text='Meta 1 | Etapa 6: Airdata'):
+                      meta_text='Meta 1 | Etapa 6: Airdata',
+                      institution_logo='images/ita_traco.png'):
     """Create the temporary LaTeX file with embedded config"""
     # Build the content line by line to avoid encoding issues
     lines = [
@@ -22,7 +38,7 @@ def create_latex_file(footer_logo='images/airdata_logo.png',
         rf'\def\pageMetaText{{{meta_text}}}',
         r'\def\headerFontFamily{lmr}',
         r'',
-        r'\def\pageInstitutionLogo{images/ita_traco.png}',
+        rf'\def\pageInstitutionLogo{{{institution_logo}}}',
         rf'\def\pageFooterLogo{{{footer_logo}}}',
         r'',
         r'\definecolor{airdataHeaderBlue}{RGB}{0,114,188}',
@@ -106,12 +122,12 @@ def create_latex_file(footer_logo='images/airdata_logo.png',
         r'\end{document}',
     ]
     
-    with open('background_temp.tex', 'w', encoding='utf-8', newline='\n') as f:
+    with open('build/background_temp.tex', 'w', encoding='utf-8', newline='\n') as f:
         f.write('\n'.join(lines))
 
 def compile_pdf():
     """Compile the LaTeX file to PDF"""
-    cmd = ['xelatex', '-output-directory=build', '-interaction=nonstopmode', '-halt-on-error', 'background_temp.tex']
+    cmd = ['xelatex', '-output-directory=build', '-interaction=nonstopmode', '-halt-on-error', 'build/background_temp.tex']
     result = subprocess.run(cmd, capture_output=True, text=True)
     return result.returncode == 0
 
@@ -136,17 +152,34 @@ def convert_to_png():
 def main():
     print("📄 Generating background PNG from dynamic content page")
     
-    # Parse command line arguments
-    footer_logo = sys.argv[1] if len(sys.argv) > 1 else 'images/airdata_logo.png'
-    product_text = sys.argv[2] if len(sys.argv) > 2 else 'Produto 1'
-    meta_text = sys.argv[3] if len(sys.argv) > 3 else 'Meta 1 | Etapa 6: Airdata'
+    # Load configuration
+    config = load_config()
+    
+    # Get absolute path to project root for image paths
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.dirname(script_dir)
+    
+    # Use JSON configuration with absolute paths
+    footer_logo = os.path.join(project_root, config["assets"]["images"]["background_logo"])
+    institution_logo = os.path.join(project_root, config["assets"]["images"]["ita_traco_logo"])
+    
+    # Verify required image files exist
+    if not os.path.exists(footer_logo):
+        print(f"❌ Footer logo not found: {footer_logo}")
+        sys.exit(1)
+    if not os.path.exists(institution_logo):
+        print(f"❌ Institution logo not found: {institution_logo}")
+        sys.exit(1)
+    
+    product_text = config["project"]["product_text"]
+    meta_text = config["project"]["meta_text"]
     
     # Create directories
     os.makedirs('build', exist_ok=True)
     os.makedirs('capas', exist_ok=True)
     
     # Create LaTeX file
-    create_latex_file(footer_logo, product_text, meta_text)
+    create_latex_file(footer_logo, product_text, meta_text, institution_logo)
     
     # Compile to PDF
     if compile_pdf():
@@ -161,9 +194,6 @@ def main():
         print("❌ LaTeX compilation failed! Check build/background_temp.log for details")
         return 1
     
-    # Clean up
-    if os.path.exists('background_temp.tex'):
-        os.remove('background_temp.tex')
     
     return 0
 

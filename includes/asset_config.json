@@ -1,0 +1,56 @@
+{
+  "project": {
+    "title": "Relatório de Análise e Mapeamento das Bases de Dados",
+    "meta_text": "Meta 2 | Etapa 2: Sistemas Distribuidos",
+    "product_text": "Produto 1",
+    "month": "Agosto",
+    "year": "2025"
+  },
+  "assets": {
+    "images": {
+      "institution_logo": "images/logoITA.png",
+      "project_logo": "images/airdata_logo.png",
+      "background_logo": "images/logoAirdata.png",
+      "ita_traco_logo": "images/ita_traco.png"
+    }
+  },
+  "theme": {
+    "bg_color": "20,25,38",
+    "footer_color": "58,118,173",
+    "header_text": "white",
+    "footer_text": "white"
+  },
+  "layout": {
+    "cover": {
+      "institution_logo_width": "7cm",
+      "project_logo_width": "15cm",
+      "footer_height": "3.2cm",
+      "logo_top_offset": "1.2cm",
+      "logo_side_offset": "1.5cm",
+      "footer_text_offset": "0.8cm",
+      "project_logo_y_shift": "-1cm",
+      "project_logo_x_shift": "-3cm",
+      "date_offset_y": "3.7cm"
+    },
+    "font_sizes": {
+      "institution": "36",
+      "meta_etapa": "24",
+      "title": "18",
+      "product": "22",
+      "date": "20"
+    }
+  },
+  "background": {
+    "header_colors": {
+      "airdata_blue": "0,114,188",
+      "airdata_text": "0.3"
+    },
+    "layout": {
+      "institution_logo_width": "4cm",
+      "footer_logo_width": "3cm",
+      "footer_logo_opacity": "0.5",
+      "header_offset": "1.5cm",
+      "footer_offset": "1.5cm"
+    }
+  }
+}

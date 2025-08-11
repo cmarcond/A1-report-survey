@@ -1,283 +1,319 @@
-# Template LaTeX - Relatório TED ITA-SAC
+# Parameterized SAC Report Template
 
-Template profissional para relatórios do projeto TED ITA-SAC "Estudos para Aviação de Hoje e do Amanhã", com formatação ABNT e identidade visual Airdata.
+A professional, fully-parameterized LaTeX report template for the ITA-SAC (Instituto Tecnológico de Aeronáutica) project, designed to produce Brazilian ABNT-compliant academic reports with dynamic institutional branding and automated asset generation.
 
-## 🚀 Início Rápido
-
-```bash
-# Clone o repositório
-git clone [URL_DO_REPOSITORIO]
-cd A1-report-survey
-
-# Configure sua Meta e Etapa no Makefile (linhas 32-33)
-# PROJECT_META = 2
-# PROJECT_ETAPA = 2
-
-# Compile o documento
-make
-```
-
-O comando `make` automaticamente:
-- Instala dependências LaTeX necessárias
-- Gera assets dinâmicos (capa e backgrounds) via Python
-- Carrega as fontes Cheltenham ITC Pro do projeto
-- Compila o documento completo com bibliografia e siglas
-
-## 📋 Pré-requisitos
-
-- **Linux/macOS**: Sistema de pacotes (apt, dnf, brew, etc.)
-- **Windows**: MiKTeX ou TeX Live
-- **Espaço em disco**: ~2GB para instalação completa do TeX
-
-## 🎯 Configuração do Projeto
-
-### Configuração Principal
-
-Edite as variáveis no `Makefile`:
-
-```makefile
-# Configuração do projeto
-PRODUCT_TEXT = Produto 1
-META_TEXT = Meta 2 | Etapa 2: Sistemas Distribuídos
-FOOTER_LOGO = images/logoAirdata.png
-
-# Configuração da capa
-COVER_TITLE = Relatório de Análise e Mapeamento das Bases de Dados
-COVER_MONTH = Agosto
-COVER_YEAR = 2025
-COVER_INSTITUTION_LOGO = images/logoITA.png
-COVER_PROJECT_LOGO = images/airdata_logo.png
-```
-
-O sistema automaticamente:
-- Extrai Meta/Etapa do META_TEXT
-- Seleciona cores baseadas na etapa
-- Gera capa e backgrounds dinamicamente
-- Aplica branding consistente
-
-## 📝 Estrutura do Template
-
-```
-A1-report-survey/
-├── main.tex              # Arquivo principal
-├── Makefile              # Sistema de compilação automatizada
-├── caps/                 # Capítulos do relatório
-│   ├── cap00.tex         # Introdução
-│   ├── cap01.tex         # Capítulo 1
-│   └── ...
-├── settings/             # Configurações do template
-│   ├── coverpage_png.tex # Carregador de capa PNG
-│   ├── setcolor.tex      # Cores oficiais do projeto
-│   └── ...
-├── scripts/              # Scripts Python para geração de assets
-│   ├── generate_cover.py           # Gerador de capa
-│   ├── generate_background.py      # Background principal
-│   └── generate_background_pretex.py # Background pré-textual
-├── capas/                # Assets gerados (PNG)
-│   ├── cover.png         # Capa gerada
-│   ├── background.png    # Background principal
-│   └── background_pretex.png # Background pré-textual
-├── refs/                 # Bibliografia
-│   └── referencias.bib   # Arquivo BibTeX
-├── siglas/               # Definições de siglas
-│   └── cap_siglas.tex    # Lista de acrônimos
-└── images/               # Imagens e logos
-
-```
-
-## 🔧 Comandos Principais
-
-### Compilação
+## 🚀 Quick Start
 
 ```bash
-make              # Compilação completa com geração de assets
-make quick        # Compilação rápida (inclui assets, 1 passo LaTeX)
-make view         # Compila e abre o PDF
-make watch        # Recompila automaticamente ao salvar arquivos
-make force        # Limpa tudo e recompila do zero
+# Clone the repository
+git clone <repository-url>
+cd parameterized-sac-report
+
+# Install dependencies and build
+make              # Full build with all assets
+make view         # Build and open PDF
+
+# For continuous editing
+make watch        # Auto-recompile on changes
 ```
 
-### Geração de Assets
+## 📋 Prerequisites
 
+### Required Software
+- **TeX Distribution**: TeX Live or MiKTeX (with XeLaTeX)
+- **Python 3**: For asset generation scripts
+- **ImageMagick**: For PNG processing
+- **Make**: Build automation
+
+### Installation by OS
+
+#### Ubuntu/Debian
 ```bash
-make generate-assets     # Gera todos os assets (capa + backgrounds)
-make generate-cover      # Gera apenas a capa
-make generate-backgrounds # Gera apenas os backgrounds
+sudo apt-get update
+sudo apt-get install -y texlive-full python3 imagemagick make
 ```
 
-### Manutenção
-
+#### macOS
 ```bash
-make clean        # Remove arquivos temporários
-make distclean    # Remove TODOS os arquivos gerados
-make deps-check   # Verifica dependências instaladas
-make help         # Mostra todos os comandos disponíveis
+brew install --cask mactex
+brew install python3 imagemagick make
 ```
 
-## ✏️ Como Usar o Template
+#### Fedora/RHEL
+```bash
+sudo dnf install texlive-scheme-full python3 ImageMagick make
+```
 
-### 1. Adicionar Conteúdo
+## 🏗️ Project Architecture
 
-- **Capítulos**: Edite os arquivos em `caps/cap*.tex`
-- **Novo capítulo**: Crie `caps/capXX.tex` e inclua em `main.tex`
+### Dynamic Asset Generation System
 
-### 2. Gerenciar Bibliografia
+The project features a sophisticated **hybrid Python/LaTeX architecture** that automatically generates branded assets based on configuration:
 
+```
+asset_config.json → Python Scripts → PNG Assets → LaTeX Compilation → PDF
+```
+
+### Directory Structure
+
+```
+parameterized-sac-report/
+├── main.tex                  # Main LaTeX entry point
+├── Makefile                  # Build automation
+├── includes/
+│   └── asset_config.json    # Central configuration file
+├── scripts/                 # Python asset generators
+│   ├── generate_cover.py
+│   ├── generate_background.py
+│   └── resolve_project_colors.py
+├── capas/                    # Generated PNG assets (auto-created)
+│   ├── cover.png
+│   ├── background.png
+│   └── background_pretex.png
+├── caps/                     # Chapter content files
+│   ├── cap00.tex            # Abstract
+│   ├── cap01.tex            # Introduction
+│   └── ...                  # Additional chapters
+├── settings/                 # LaTeX configuration
+│   ├── fonts.tex            # Font configuration
+│   ├── setcolor.tex         # Color definitions
+│   └── ...                  # Other settings
+├── fonts/                    # Custom Cheltenham fonts
+├── images/                   # Static images/logos
+└── refs/                     # Bibliography
+    └── referencias.bib
+```
+
+## ⚙️ Configuration
+
+### Central Configuration File
+
+All project parameters are centralized in `includes/asset_config.json`:
+
+```json
+{
+  "project": {
+    "title": "Your Report Title",
+    "meta": 2,
+    "etapa": 6,
+    "meta_text": "Meta 2 | Etapa 6: Project Phase",
+    "product_text": "Product Description",
+    "month": "Agosto",
+    "year": "2025"
+  },
+  "assets": {
+    "images": {
+      "institution_logo": "images/logoITA.png",
+      "project_logo": "images/your_logo.png",
+      "background_logo": "images/footer_logo.png"
+    }
+  },
+  "theme": {
+    "bg_color": "20,25,38",
+    "footer_color": "58,118,173"
+  }
+}
+```
+
+### Color Themes
+
+The system automatically selects colors based on meta/etapa values:
+- **Meta 1**: Blue gradient palette (etapas 1-6)
+- **Meta 2**: Teal gradient palette (etapas 1-10)
+- **Custom**: Override with explicit color values
+
+## 🛠️ Build Commands
+
+### Primary Commands
+
+| Command | Description |
+|---------|-------------|
+| `make` | Full compilation with asset generation |
+| `make quick` | Single-pass compilation (faster) |
+| `make view` | Compile and open PDF |
+| `make watch` | Auto-recompile on file changes |
+| `make clean` | Remove all generated files |
+
+### Asset Management
+
+| Command | Description |
+|---------|-------------|
+| `make generate-assets` | Generate all PNG assets |
+| `make generate-cover` | Generate cover page only |
+| `make generate-backgrounds` | Generate backgrounds only |
+| `make clean-assets` | Remove generated PNGs |
+| `make update-colors` | Update color configuration |
+
+### Development Tools
+
+| Command | Description |
+|---------|-------------|
+| `make install-deps` | Install TeX packages |
+| `make test-colors` | Generate color palette preview |
+| `make debug` | Verbose compilation output |
+
+## 📝 Working with Content
+
+### Adding a New Chapter
+
+1. Create a new file in `caps/`:
 ```latex
-% Em refs/referencias.bib, adicione:
-@article{silva2024,
-  author = {Silva, João},
-  title = {Título do Artigo},
-  journal = {Nome da Revista},
+% caps/cap12.tex
+\chapter{Your Chapter Title}
+
+Your content here...
+```
+
+2. Include it in `main.tex`:
+```latex
+\input{caps/cap12}
+```
+
+### Managing Citations
+
+1. Add entries to `refs/referencias.bib`:
+```bibtex
+@article{author2024,
+  author = {Author Name},
+  title = {Article Title},
+  journal = {Journal Name},
   year = {2024}
 }
-
-% No texto, cite com:
-\cite{silva2024}
 ```
 
-### 3. Adicionar Siglas
-
+2. Cite in your text:
 ```latex
-% Em siglas/cap_siglas.tex, defina:
-\newacronym{ANAC}{ANAC}{Agência Nacional de Aviação Civil}
-
-% No texto, use:
-\gls{ANAC}  % Primeira vez: Agência Nacional de Aviação Civil (ANAC)
-\gls{ANAC}  % Próximas vezes: ANAC
+According to \citeonline{author2024}...
 ```
 
-### 4. Incluir Imagens
+### Using Acronyms
 
+1. Define in `siglas/cap_siglas.tex`:
 ```latex
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=0.8\textwidth]{images/sua_imagem.png}
-  \caption{Legenda da figura}
-  \label{fig:label}
-\end{figure}
+\newacronym{AI}{AI}{Artificial Intelligence}
 ```
 
-## 🎨 Paleta de Cores Oficiais
+2. Use in text:
+```latex
+The \gls{AI} system...  % First use shows full form
+```
 
-Cada Meta/Etapa possui uma cor oficial que é aplicada automaticamente:
+## 🎨 Customization
 
-### Meta 1
-- Coordenação: #272a6a
-- Etapa 1: #283880
-- Etapa 2: #204196
-- Etapa 3: #2451a4
-- Etapa 4: #2b61ae
-- Etapa 5: #2d72ba
-- Etapa 6: #2f84c6
+### Quick Customization
 
-### Meta 2
-- Etapa 1: #388fcd
-- Etapa 2: #6597ca
-- Etapa 3: #6392bd
-- Etapa 4: #618eb1
-- Etapa 5: #5e89a7
-- Etapa 6: #5c859c
-- Etapa 7: #4d7d94
-- Etapa 8: #3f738b
-- Etapa 9: #306983
-- Etapa 10: #215f7b
+Edit `includes/asset_config.json` to change:
+- Report title and metadata
+- Institution/project logos
+- Color themes
+- Date information
 
-## 🐛 Resolução de Problemas
+### Advanced Customization
 
-### Assets não geram corretamente
+#### Custom Color Palette
+```json
+"colors": {
+  "project_main": "2f84c6",
+  "coordination": "272a6a",
+  "accent": "ff6b6b"
+}
+```
 
+#### Font Configuration
+Edit `settings/fonts.tex` to change typography:
+```latex
+\setmainfont{Your Font Name}
+```
+
+#### Page Layout
+Modify `settings/setlayout.tex` for margins and spacing.
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+#### "Runaway argument" Error
 ```bash
-# Verificar se Python 3 está disponível
+make clean && make  # Clean rebuild
+```
+
+#### Assets Not Generating
+```bash
+# Check Python and ImageMagick
 python3 --version
+convert --version
 
-# Regenerar todos os assets
+# Force regeneration
 make clean-assets && make generate-assets
-
-# Verificar logs de geração
-ls -la capas/  # Devem existir: cover.png, background.png, background_pretex.png
 ```
 
-### Erro de compilação com fontes
+#### Font Loading Errors
+```bash
+# Use LuaLaTeX instead
+make LATEX=lualatex
+```
+
+#### Bibliography Not Updating
+```bash
+make clean && make  # Full rebuild required
+```
+
+### Debug Mode
+```bash
+make debug  # Verbose output for troubleshooting
+```
+
+## 📚 Documentation
+
+- **CLAUDE.md**: Detailed technical documentation for AI assistants
+- **readme/**: Legacy documentation and font licensing
+- **includes/README.md**: Configuration system documentation
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test with `make clean && make`
+5. Submit a pull request
+
+### Development Workflow
 
 ```bash
-# O template usa Cheltenham ITC Pro (incluída automaticamente em fonts/)
-# As fontes são carregadas diretamente do projeto - não precisa instalar no sistema
-# Certifique-se de usar XeLaTeX ou LuaLaTeX:
-make LATEX=xelatex   # padrão
-make LATEX=lualatex  # alternativa
+# Start development
+git checkout -b feature/your-feature
+
+# Make changes and test
+make watch  # In terminal 1
+# Edit files in terminal 2
+
+# Validate before commit
+make clean && make
+git add .
+git commit -m "feat: your feature description"
 ```
 
-### Bibliografia não atualiza
+## 📄 License
 
-```bash
-make clean && make   # Força recompilação completa
-```
+This project uses:
+- **LaTeX**: LaTeX Project Public License
+- **Cheltenham Fonts**: Licensed for project use
+- **ABNTeX2**: LaTeX Project Public License
+- **Python Scripts**: MIT License
 
-### "Runaway argument" ou erros de auxiliar
+## 🏢 About
 
-```bash
-make clean && make   # Limpa arquivos .aux corrompidos
-```
+Developed for the ITA-SAC project "Estudos para Aviação de Hoje e do Amanhã" in collaboration with:
+- Instituto Tecnológico de Aeronáutica (ITA)
+- SAC - Secretaria de Aviação Civil
 
-### Instalação de dependências falha
+## 📞 Support
 
-```bash
-# Instalação manual no Ubuntu/Debian:
-sudo apt-get install texlive-full imagemagick
-
-# Fedora:
-sudo dnf install texlive-scheme-full ImageMagick
-
-# macOS:
-brew install --cask mactex
-brew install imagemagick
-```
-
-## 📦 Dependências do Template
-
-### Dependências do Sistema
-- **Python 3**: Para geração de assets
-- **ImageMagick**: Para conversão PDF → PNG
-- **XeLaTeX ou LuaLaTeX**: Para compilação (não pdfLaTeX)
-
-### Pacotes LaTeX (instalados automaticamente)
-- **ABNT**: abntex2cite (normas brasileiras)
-- **Fontes**: fontspec, Cheltenham ITC Pro (incluída no projeto)
-- **Cores**: xcolor com cores institucionais
-- **Bibliografia**: BibTeX com estilo ABNT
-- **Siglas**: glossaries-extra
-- **Backgrounds**: eso-pic (para PNGs de página inteira)
-
-### Fluxo de Compilação
-```
-1. Python Scripts → Geram assets PNG
-2. XeLaTeX (1st pass) → Processa conteúdo
-3. BibTeX → Processa bibliografia
-4. makeglossaries → Processa siglas
-5. XeLaTeX (2nd pass) → Resolve referências
-6. XeLaTeX (3rd pass) → Finaliza documento
-```
-
-## 🤝 Compartilhamento entre Equipes
-
-Para compartilhar com colegas de outras Metas/Etapas:
-
-1. **Faça um fork ou clone** este repositório
-2. **Configure sua Meta/Etapa** no Makefile
-3. **Substitua o conteúdo** dos capítulos em `caps/`
-4. **Atualize a bibliografia** em `refs/referencias.bib`
-5. **Compile** com `make`
-
-## 📞 Suporte
-
-Em caso de problemas:
-
-1. Verifique os logs: `main.log`
-2. Execute: `make deps-check`
-3. Tente: `make force` para recompilação limpa
-4. Consulte a documentação ABNT em caso de dúvidas de formatação
+For issues or questions:
+1. Check the [Troubleshooting](#-troubleshooting) section
+2. Review `CLAUDE.md` for technical details
+3. Open an issue on GitHub
 
 ---
 
-**Projeto TED ITA-SAC** - Instituto Tecnológico de Aeronáutica / Secretaria de Aviação Civil
+*Built with ❤️ for academic excellence and professional presentation*

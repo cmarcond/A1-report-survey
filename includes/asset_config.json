@@ -12,7 +12,7 @@
     "images": {
       "institution_logo": "images/logoITA.png",
       "project_logo": "images/cloudsky_logo.png",
-      "background_logo": "images/logoAirdata.png",
+      "background_logo": "images/cloudsky_logo.png",
       "ita_traco_logo": "images/ita_traco.png"
     }
   },
